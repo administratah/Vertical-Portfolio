@@ -1,0 +1,288 @@
+Create a modern, premium, vertical scrolling portfolio website for **Ali**, a professional **Sound Engineer & Audio Producer**, with each section designed like a full presentation slide or creative portfolio page.
+
+Core goal:
+The website should feel like a bold editorial presentation deck, not a normal corporate website. As the user scrolls down, each section should feel like a separate slide or page.
+
+Design style:
+Match this visual direction:
+
+* black background
+* very large bold sans-serif typography
+* off-white / light gray text
+* clean grid layout
+* oversized headlines
+* strong spacing and empty space
+* large image blocks
+* elegant, minimal, high-end presentation feel
+* cinematic and confident
+* modern keynote / magazine / creative deck style
+* each section should look like a designed portfolio page
+
+Important:
+
+* do not make it look generic
+* do not use bright playful colors
+* do not clutter the layout
+* do not use small cramped cards everywhere
+* keep it bold, minimal, premium, and readable
+* prioritize strong typography and composition
+
+Website behavior:
+
+* one-page vertical scrolling portfolio
+* each major section should fill most or all of the screen height
+* each section should feel like a standalone slide/page
+* smooth scrolling
+* subtle transitions only
+* responsive on desktop and mobile
+* maintain strong visual rhythm from section to section
+
+Personal brand content:
+Name: **Ali**
+Main title: **Sound Engineer & Audio Producer**
+Subtitle / positioning:
+**Broadcast • Radio • Film • Dubbing • Music**
+
+Alternative heading options can be included in the content file for easy switching:
+
+* **Audio Production Manager — Radio • TV • Film • Live Broadcast • Music**
+* **Broadcast Sound Engineer & Audio Producer**
+* **Sound Engineer for Broadcast, Film, Radio, and Music**
+
+About Ali:
+Ali is an experienced sound engineer and audio professional with a background across **TV broadcast, radio production, film and documentary dubbing, voice recording, music production, and live studio operations**. His work includes recording, editing, mixing, sound design, post-production cleanup, and handling Arabic version dubbing projects with multiple voice artists under demanding deadlines.
+
+Sections to build:
+
+1. Cover / Hero slide
+
+* very large bold name or portfolio title
+* title and subtitle
+* short intro line
+* small metadata area in one corner
+* CTA buttons:
+
+  * View Work
+  * Contact
+  * Download PDF Portfolio
+* make this section feel like a presentation cover page
+
+Suggested hero copy:
+Headline:
+**ALI**
+Subheadline:
+**Sound Engineer & Audio Producer**
+Supporting text:
+**Broadcast, radio, film, dubbing, music, and live studio audio with a focus on clarity, storytelling, and professional execution.**
+
+2. Table of Contents slide
+   Include:
+
+* Introduction
+* About
+* Experience
+* Selected Work
+* Skills
+* Recognition
+* Contact
+
+Design it like a stylish contents page in a presentation deck.
+
+3. Introduction slide
+   Headline:
+   **INTRODUCTION**
+   Text:
+   **A professional audio portfolio covering broadcast, radio, documentary dubbing, voice production, music, and technical studio operations. Built around precision, coordination, and clean delivery across demanding production environments.**
+
+Include one large visual block placeholder.
+
+4. About slide
+   Headline:
+   **HELLO, I’M ALI**
+   Text:
+   **I work across multiple areas of professional audio, including television broadcast, radio production, film and documentary dubbing, voice recording, music production, and live studio workflows. My work combines technical control, fast problem solving, post-production precision, and creative audio judgment.**
+
+Include a large portrait or lifestyle image placeholder.
+Make this section feel personal, bold, and minimal.
+
+5. Experience slides
+   Create separate full-screen slide-like sections for these categories:
+
+A. TV Broadcast Audio
+Headline:
+**TV BROADCAST AUDIO**
+Text:
+**Audio operation and support for television production environments, including live and recorded workflows, studio coordination, clean signal handling, mix monitoring, and dependable delivery under pressure.**
+
+B. Radio Production
+Headline:
+**RADIO PRODUCTION**
+Text:
+**Production, editing, mixing, and sound design for radio content including station imaging, promos, commercials, segments, and branded audio material.**
+
+C. Film / Documentary Audio
+Headline:
+**FILM & DOCUMENTARY**
+Text:
+**Audio work for documentary and visual storytelling projects, with emphasis on voice material, dialogue preparation, editorial cleanup, and final presentation quality.**
+
+D. Dubbing / Voice Recording
+Headline:
+**DUBBING & VOICE PRODUCTION**
+Text:
+**Recording, editing, and mixing Arabic versions for documentary and film content, coordinating with multiple voice artists and delivering polished results under tight schedules.**
+
+E. Music / Creative Audio
+Headline:
+**MUSIC & CREATIVE PRODUCTION**
+Text:
+**Music-related production, sound shaping, editing, and creative audio work developed through both professional and independent projects.**
+
+F. Live Broadcast / Studio Operations
+Headline:
+**LIVE & STUDIO OPERATIONS**
+Text:
+**Hands-on studio and live production support with attention to workflow, communication, timing, technical stability, and fast troubleshooting.**
+
+6. Selected Work slides
+   Create a premium portfolio section with large editorial project panels.
+
+Use these project entries as initial content:
+
+Project 1:
+Title: **Sharjah Safari**
+Category: **Documentary / Arabic Dubbing**
+Description:
+**Recording, editing, and mixing of the Arabic version, working with a large number of voice artists and managing delivery under tight production deadlines.**
+
+Project 2:
+Title: **Sir Bu Nu’ayr Island**
+Category: **Documentary / Arabic Dubbing**
+Description:
+**Arabic dubbing production support including recording coordination, dialogue editing, and final mix preparation.**
+
+Project 3:
+Title: **Falaj Aldhaid**
+Category: **Documentary / Arabic Dubbing**
+Description:
+**Audio production work for the Arabic version, including voice recording, editorial work, and mix handling.**
+
+Project 4:
+Title: **Radio Production & Station Imaging**
+Category: **Radio**
+Description:
+**Mixing, editing, sound design, and production of radio jingles, station IDs, show segments, promos, and commercial material.**
+
+For each project card or slide, support:
+
+* title
+* category
+* short description
+* optional long description
+* role
+* tools
+* image
+* external link
+* media embed placeholder
+
+7. Skills slide
+   Headline:
+   **SKILLS**
+   Organize into strong typography groups:
+
+Audio Production
+
+* recording
+* editing
+* mixing
+* dialogue cleanup
+* voice production
+* sound design
+
+Broadcast & Studio
+
+* broadcast audio workflows
+* live studio support
+* technical coordination
+* session preparation
+* troubleshooting
+* production communication
+
+Software / Tools
+
+* Pro Tools
+* Adobe Audition
+* iZotope RX
+* Reaper
+* other tools can be added later
+
+Keep the skill section visually clean, bold, and not too dense.
+
+8. Recognition slide
+   Headline:
+   **SELECTED HIGHLIGHTS**
+   Use placeholder structure for:
+
+* award-winning documentaries
+* major productions
+* important collaborations
+* notable broadcast experience
+
+Text:
+**Selected professional work across broadcast, radio, documentary dubbing, voice production, and creative audio projects. Final details can be expanded later.**
+
+9. Contact slide
+   Headline:
+   **LET’S CONNECT**
+   Text:
+   **For professional opportunities, collaborations, and selected project inquiries.**
+   Add placeholders for:
+
+* email
+* LinkedIn
+* phone / WhatsApp
+* website / portfolio link
+
+PDF requirement:
+Also generate a downloadable PDF portfolio that matches the same design language:
+
+* black background
+* bold typography
+* minimal layout
+* premium presentation-deck feel
+* not crowded
+* good for both screen and print
+* should include hero, short bio, specialties, selected work, skills, and contact
+
+Content system:
+Create a single editable data source such as JSON or structured content file for:
+
+* name
+* title
+* subtitle
+* intro
+* about text
+* experience sections
+* project entries
+* skills
+* recognition
+* contact info
+* image paths
+* links
+
+This is important because content, images, and links will be replaced later.
+
+Technical requirements:
+
+* use a clean modern frontend stack supported well in Replit
+* reusable components
+* responsive layout
+* smooth scrolling
+* easy deployment
+* easy to maintain
+* strong typography scaling
+* elegant hover and transition behavior only
+* use placeholders where needed and mark them clearly for later replacement
+
+Final design direction reminder:
+This should feel like a premium visual presentation portfolio for an audio professional, with each section behaving like a designed slide in a deck.

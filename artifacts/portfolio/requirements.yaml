@@ -1,0 +1,12 @@
+packages:
+  "framer-motion": "Required for premium cinematic scroll animations and reveals"
+  "clsx": "Utility for constructing className strings conditionally"
+  "tailwind-merge": "Utility to merge tailwind classes safely"
+  "lucide-react": "For UI icons in contact/nav if needed"
+
+images: []
+
+notes:
+  - Frontend-only static portfolio. No backend API required.
+  - All content is driven by a local data file.
+  - Uses CSS-based placeholders for images as requested by the strict design guidelines.

@@ -21,7 +21,8 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 ```text
 artifacts-monorepo/
 ├── artifacts/              # Deployable applications
-│   └── api-server/         # Express API server
+│   ├── api-server/         # Express API server
+│   └── portfolio/          # Ali — Sound Engineer Portfolio (React + Vite)
 ├── lib/                    # Shared libraries
 │   ├── api-spec/           # OpenAPI spec + Orval codegen config
 │   ├── api-client-react/   # Generated React Query hooks
@@ -34,6 +35,46 @@ artifacts-monorepo/
 ├── tsconfig.json           # Root TS project references
 └── package.json            # Root package with hoisted devDeps
 ```
+
+## Portfolio — Ali Sound Engineer
+
+**Artifact**: `artifacts/portfolio` (React + Vite, served at `/`)
+
+A premium, cinematic single-page portfolio for Ali, a Sound Engineer & Audio Producer.
+
+### Design
+- Pure black background, off-white typography
+- Oversized bold Syne font (display) + Inter (body)
+- Each section fills the viewport like a presentation slide
+- Scroll-triggered reveal animations via Framer Motion
+- Fixed nav with hide-on-scroll behavior + scroll progress bar
+
+### Content System
+All content is driven from a single editable data file:
+- **`artifacts/portfolio/src/data/portfolio.ts`** — edit name, title, experience, projects, skills, contact links, etc.
+
+### Sections
+1. Hero / Cover — name, title, tags, description, CTA buttons
+2. Table of Contents — numbered list with scroll links
+3. Introduction — large editorial text block + image placeholder
+4. About — portrait placeholder + personal bio
+5. Experience (6 slides) — TV Broadcast, Radio, Film/Doc, Dubbing, Music, Live/Studio
+6. Selected Work — 4 editorial project panels (Sharjah Safari, Sir Bu Nu'ayr Island, Falaj Aldhaid, Radio Imaging)
+7. Skills — 3 columns: Audio Production, Broadcast & Studio, Software/Tools
+8. Recognition / Highlights — placeholder entries for awards/credits
+9. Contact — Let's Connect with email, LinkedIn, phone, website placeholders
+
+### Key Files
+- `artifacts/portfolio/src/data/portfolio.ts` — all content (edit this to update any text/links)
+- `artifacts/portfolio/src/pages/Portfolio.tsx` — main page layout
+- `artifacts/portfolio/src/components/Navigation.tsx` — fixed nav
+- `artifacts/portfolio/src/components/Reveal.tsx` — scroll animation wrapper
+- `artifacts/portfolio/src/components/PlaceholderImage.tsx` — image placeholder component
+- `artifacts/portfolio/src/index.css` — theme (black/off-white, Syne + Inter fonts)
+
+### Dependencies added
+- `framer-motion` — animations
+- `lucide-react` — icons
 
 ## TypeScript & Composite Projects
 
