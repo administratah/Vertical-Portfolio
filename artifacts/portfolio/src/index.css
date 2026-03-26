@@ -52,4 +52,12 @@
   .text-balance {
     text-wrap: balance;
   }
+  .text-slide-title {
+    font-size: clamp(3rem, 8vw, 10rem);
+    line-height: 0.9;
+  }
+  .text-section-title {
+    font-size: clamp(4rem, 10vw, 12rem);
+    line-height: 0.85;
+  }
 }

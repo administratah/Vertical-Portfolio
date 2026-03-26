@@ -46,7 +46,7 @@ export function Navigation() {
           ))}
           <a 
             href="#contact"
-            className="text-xs uppercase tracking-[0.2em] text-background bg-foreground px-4 py-2 rounded-full hover:bg-muted-foreground transition-colors font-medium"
+            className="text-xs uppercase tracking-[0.2em] text-foreground hover:text-muted-foreground transition-colors font-medium"
           >
             Contact
           </a>
