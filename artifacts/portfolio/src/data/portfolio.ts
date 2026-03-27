@@ -92,7 +92,7 @@ export const portfolioData = {
     ]
   },
   contact: {
-    text: "For professional opportunities, collaborations, and selected project inquiries.",
+    text: "Available for select projects and professional collaborations.",
     links: [
       { label: "EMAIL", value: "sajiali.sa@gmail.com", href: "mailto:#" },
       { label: "LINKEDIN", value: "linkedin.com/in/SajiAli", href: "#" },
