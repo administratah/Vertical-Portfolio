@@ -81,7 +81,20 @@ export default function Portfolio() {
                       <a href="#contact" className="group flex items-center space-x-4 text-sm md:text-base uppercase tracking-[0.2em] font-medium text-muted-foreground hover:text-white transition-all duration-300 px-6 py-5">
                         <span>Contact</span>
                       </a>
-                      <a href="/Ali_Saji_Broadcast_Audio_Engineer.pdf" className="group flex items-center space-x-4 text-sm md:text-base uppercase tracking-[0.2em] font-medium text-muted-foreground hover:text-white transition-all duration-300 px-6 py-5">
+                      <a 
+                        href="/Ali_Saji_Broadcast_Audio_Engineer.pdf"
+                        download="Ali_Saji_CV.pdf"
+                        onClick={(e) => {
+                          // fallback for browsers that ignore "download"
+                          const link = document.createElement('a');
+                          link.href = '/Ali_Saji_Broadcast_Audio_Engineer.pdf';
+                          link.download = 'Saji_Ali_RESUME.pdf';
+                          document.body.appendChild(link);
+                          link.click();
+                          document.body.removeChild(link);
+                        }}
+                        className="group flex items-center space-x-4 text-sm md:text-base uppercase tracking-[0.2em] font-medium text-muted-foreground hover:text-white transition-all duration-300 px-6 py-5"
+                      >
                         <Download className="w-5 h-5" />
                         <span>Download PDF</span>
                       </a>
