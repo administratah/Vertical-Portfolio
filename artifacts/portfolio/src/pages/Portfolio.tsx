@@ -81,7 +81,7 @@ export default function Portfolio() {
                       <a href="#contact" className="group flex items-center space-x-4 text-sm md:text-base uppercase tracking-[0.2em] font-medium text-muted-foreground hover:text-white transition-all duration-300 px-6 py-5">
                         <span>Contact</span>
                       </a>
-                      <a href="artifacts/portfolio/public/Ali_Saji_Broadcast_Audio_Engineer.pdf" className="group flex items-center space-x-4 text-sm md:text-base uppercase tracking-[0.2em] font-medium text-muted-foreground hover:text-white transition-all duration-300 px-6 py-5">
+                      <a href="/Ali_Saji_Broadcast_Audio_Engineer.pdf" className="group flex items-center space-x-4 text-sm md:text-base uppercase tracking-[0.2em] font-medium text-muted-foreground hover:text-white transition-all duration-300 px-6 py-5">
                         <Download className="w-5 h-5" />
                         <span>Download PDF</span>
                       </a>
