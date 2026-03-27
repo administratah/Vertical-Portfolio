@@ -29,55 +29,87 @@ export default function Portfolio() {
       <main>
         {/* 1. HERO SECTION */}
         <section id="top" className="relative min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-24 pt-20 pb-12 overflow-hidden max-w-[1800px] mx-auto">
-          <motion.div style={{ opacity, scale }} className="z-10 mt-auto">
-            <Reveal hero>
-              <h1 className="text-[20vw] leading-[0.75] md:text-[18vw] lg:text-[15vw] font-display font-bold tracking-tighter ml-[-0.5vw]">
-                {portfolioData.header.name}
-              </h1>
-            </Reveal>
-            
-            <div className="mt-12 md:mt-24 max-w-3xl">
-              <Reveal hero delay={0.15}>
-                <h2 className="text-2xl md:text-5xl font-display uppercase tracking-widest text-foreground/90 leading-tight">
-                  {portfolioData.header.title}
-                </h2>
-              </Reveal>
-              
-              <Reveal hero delay={0.25}>
-                <div className="flex flex-wrap gap-x-4 gap-y-4 mt-10">
-                  {portfolioData.header.tags.map((tag, i) => (
-                    <span key={i} className="text-sm md:text-base uppercase tracking-[0.2em] text-muted-foreground border border-white/20 px-6 py-2 rounded-none">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </Reveal>
+          <motion.div style={{ opacity, scale }} className="z-10 mt-auto w-full">
 
-              <Reveal hero delay={0.35}>
-                <p className="mt-12 text-xl md:text-2xl text-muted-foreground font-light leading-relaxed max-w-2xl">
-                  {portfolioData.header.description}
-                </p>
-              </Reveal>
+            {/* Two-column grid: text left, portrait right */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-end w-full">
 
-              <Reveal hero delay={0.5}>
-                <div className="flex flex-col sm:flex-row gap-8 mt-16">
-                  <a href="#work" className="group flex items-center space-x-4 text-sm md:text-base uppercase tracking-[0.2em] font-medium border border-white/30 px-10 py-5 rounded-none hover:bg-white hover:text-black transition-all duration-300">
-                    <span>View Work</span>
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-                  </a>
-                  <a href="#contact" className="group flex items-center space-x-4 text-sm md:text-base uppercase tracking-[0.2em] font-medium text-muted-foreground hover:text-white transition-all duration-300 px-6 py-5">
-                    <span>Contact</span>
-                  </a>
-                  <a href="#" className="group flex items-center space-x-4 text-sm md:text-base uppercase tracking-[0.2em] font-medium text-muted-foreground hover:text-white transition-all duration-300 px-6 py-5">
-                    <Download className="w-5 h-5" />
-                    <span>Download PDF</span>
-                  </a>
+              {/* LEFT — text content */}
+              <div className="lg:col-span-8">
+                <Reveal hero>
+                  <h1 className="text-[20vw] leading-[0.75] md:text-[18vw] lg:text-[13vw] font-display font-bold tracking-tighter ml-[-0.5vw]">
+                    {portfolioData.header.name}
+                  </h1>
+                </Reveal>
+
+                {/* Credibility line */}
+                <Reveal hero delay={0.1}>
+                  <p className="mt-6 md:mt-8 text-[11px] md:text-xs uppercase tracking-[0.25em] text-white/40 font-sans font-normal leading-relaxed max-w-2xl">
+                    {portfolioData.header.credibility}
+                  </p>
+                </Reveal>
+
+                <div className="mt-10 md:mt-16 max-w-3xl">
+                  <Reveal hero delay={0.2}>
+                    <h2 className="text-2xl md:text-4xl lg:text-5xl font-display uppercase tracking-widest text-foreground/90 leading-tight">
+                      {portfolioData.header.title}
+                    </h2>
+                  </Reveal>
+
+                  <Reveal hero delay={0.3}>
+                    <div className="flex flex-wrap gap-x-3 gap-y-3 mt-8">
+                      {portfolioData.header.tags.map((tag, i) => (
+                        <span key={i} className="text-xs md:text-sm uppercase tracking-[0.2em] text-muted-foreground border border-white/15 px-5 py-2 rounded-none">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </Reveal>
+
+                  <Reveal hero delay={0.4}>
+                    <p className="mt-10 text-lg md:text-xl lg:text-2xl text-muted-foreground font-light leading-relaxed max-w-2xl">
+                      {portfolioData.header.description}
+                    </p>
+                  </Reveal>
+
+                  <Reveal hero delay={0.55}>
+                    <div className="flex flex-col sm:flex-row gap-6 mt-12">
+                      <a href="#work" className="group flex items-center space-x-4 text-sm md:text-base uppercase tracking-[0.2em] font-medium border border-white/30 px-10 py-5 rounded-none hover:bg-white hover:text-black transition-all duration-300">
+                        <span>View Work</span>
+                        <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                      </a>
+                      <a href="#contact" className="group flex items-center space-x-4 text-sm md:text-base uppercase tracking-[0.2em] font-medium text-muted-foreground hover:text-white transition-all duration-300 px-6 py-5">
+                        <span>Contact</span>
+                      </a>
+                      <a href="#" className="group flex items-center space-x-4 text-sm md:text-base uppercase tracking-[0.2em] font-medium text-muted-foreground hover:text-white transition-all duration-300 px-6 py-5">
+                        <Download className="w-5 h-5" />
+                        <span>Download PDF</span>
+                      </a>
+                    </div>
+                  </Reveal>
                 </div>
-              </Reveal>
+              </div>
+
+              {/* RIGHT — portrait photo (desktop only, stacks below on mobile) */}
+              <div className="lg:col-span-4 order-first lg:order-last flex items-end justify-center lg:justify-end">
+                <Reveal hero delay={0.35} className="w-full">
+                  <div className="relative w-full max-w-xs mx-auto lg:max-w-none lg:mx-0">
+                    <img
+                      src={portraitImg}
+                      alt="Ali — Sound Engineer"
+                      className="w-full object-cover object-top grayscale contrast-110"
+                      style={{ aspectRatio: "3/4", maxHeight: "72vh" }}
+                    />
+                    {/* Subtle bottom fade to blend into black background */}
+                    <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black to-transparent pointer-events-none" />
+                  </div>
+                </Reveal>
+              </div>
+
             </div>
           </motion.div>
 
-          <Reveal hero delay={0.7} className="mt-auto pt-32 pb-8 flex justify-between items-end w-full border-b border-white/10">
+          <Reveal hero delay={0.75} className="mt-auto pt-24 pb-8 flex justify-between items-end w-full border-b border-white/10">
             <span className="text-sm uppercase tracking-[0.3em] text-muted-foreground">Portfolio {portfolioData.header.year}</span>
             <span className="text-sm uppercase tracking-[0.3em] text-muted-foreground animate-pulse">Scroll</span>
           </Reveal>
