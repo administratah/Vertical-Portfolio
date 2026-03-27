@@ -13,8 +13,8 @@ import musicImg from "@/assets/music.jpeg";
 
 export default function Portfolio() {
   const { scrollYProgress } = useScroll();
-  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.95]);
+  const opacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.15], [1, 0.95]);
 
   return (
     <div className="relative bg-background min-h-screen text-foreground selection:bg-white selection:text-black">
