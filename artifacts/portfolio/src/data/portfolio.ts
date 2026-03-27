@@ -1,10 +1,10 @@
 export const portfolioData = {
   header: {
-    name: "ALI",
-    title: "Sound Engineer & Audio Producer",
+    name: "SAJI ALI.",
+    title: "Broadcast Sound Engineer & Audio Producer",
     tags: ["Broadcast", "Radio", "Film", "Dubbing", "Music"],
-    description: "Broadcast, radio, film, dubbing, music, and live studio audio with a focus on clarity, storytelling, and professional execution.",
-    year: "2024"
+    description: "Professional audio across broadcast, film, radio, and dubbing — delivering clarity, control, and storytelling at production-grade standards.",
+    year: "2026"
   },
   toc: [
     { id: "intro", title: "Introduction", num: "01" },
@@ -16,43 +16,34 @@ export const portfolioData = {
     { id: "contact", title: "Contact", num: "07" },
   ],
   intro: {
-    text: "A professional audio portfolio covering broadcast, radio, documentary dubbing, voice production, music, and technical studio operations. Built around precision, coordination, and clean delivery across demanding production environments."
+    text: "A portfolio of professional audio work across broadcast, radio, documentary dubbing, and studio production — built on precision, coordination, and consistent delivery in demanding environments."
   },
   about: {
-    headline: "HELLO, I'M ALI",
+    headline: "HELLO, I'M SAJI",
     text: "I work across multiple areas of professional audio, including television broadcast, radio production, film and documentary dubbing, voice recording, music production, and live studio workflows. My work combines technical control, fast problem solving, post-production precision, and creative audio judgment."
   },
   experience: [
     {
       id: "exp-1",
-      title: "TV BROADCAST AUDIO",
+      title: "TV",
       description: "Audio operation and support for television production environments, including live and recorded workflows, studio coordination, clean signal handling, mix monitoring, and dependable delivery under pressure."
     },
     {
       id: "exp-2",
-      title: "RADIO PRODUCTION",
-      description: "Production, editing, mixing, and sound design for radio content including station imaging, promos, commercials, segments, and branded audio material."
+      title: "RADIO",
+      description: "Production, editing, mixing, and sound design for radio content including station imaging, promos, jingles, commercials, segments, and branded audio material."
     },
     {
       id: "exp-3",
-      title: "FILM & DOCUMENTARY",
+      title: "FILM",
       description: "Audio work for documentary and visual storytelling projects, with emphasis on voice material, dialogue preparation, editorial cleanup, and final presentation quality."
     },
     {
       id: "exp-4",
-      title: "DUBBING & VOICE PRODUCTION",
-      description: "Recording, editing, and mixing Arabic versions for documentary and film content, coordinating with multiple voice artists and delivering polished results under tight schedules."
-    },
-    {
-      id: "exp-5",
-      title: "MUSIC & CREATIVE PRODUCTION",
+      title: "MUSIC",
       description: "Music-related production, sound shaping, editing, and creative audio work developed through both professional and independent projects."
     },
-    {
-      id: "exp-6",
-      title: "LIVE & STUDIO OPERATIONS",
-      description: "Hands-on studio and live production support with attention to workflow, communication, timing, technical stability, and fast troubleshooting."
-    }
+    
   ],
   work: [
     {
@@ -102,10 +93,10 @@ export const portfolioData = {
   contact: {
     text: "For professional opportunities, collaborations, and selected project inquiries.",
     links: [
-      { label: "EMAIL", value: "contact@ali-audio.com", href: "mailto:#" },
-      { label: "LINKEDIN", value: "linkedin.com/in/ali-audio", href: "#" },
-      { label: "PHONE", value: "+971 50 000 0000", href: "#" },
-      { label: "WEBSITE", value: "ali-audio.com", href: "#" }
+      { label: "EMAIL", value: "sajiali.sa@gmail.com", href: "mailto:#" },
+      { label: "LINKEDIN", value: "linkedin.com/in/SajiAli", href: "#" },
+      { label: "PHONE", value: "+971 52 983 8022", href: "#" },
+      { label: "WEBSITE", value: "SajiAli.com", href: "#" }
     ]
   }
 };

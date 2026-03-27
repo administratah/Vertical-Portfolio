@@ -4,6 +4,12 @@ import { Navigation } from "@/components/Navigation";
 import { PlaceholderImage } from "@/components/PlaceholderImage";
 import { Reveal } from "@/components/Reveal";
 import { ArrowRight, Download } from "lucide-react";
+import studioImg from "@/assets/studio.jpeg";
+import portraitImg from "../assets/portrait.jpeg";
+import radioImg from "@/assets/radio.jpeg";
+import tvImg from "@/assets/tv.jpeg";
+import filmImg from "@/assets/film.jpeg";
+import musicImg from "@/assets/music.jpeg";
 
 export default function Portfolio() {
   const { scrollYProgress } = useScroll();
@@ -118,7 +124,11 @@ export default function Portfolio() {
                 </p>
               </Reveal>
               <Reveal delay={0.2} className="mt-24 md:mt-32 w-full">
-                <PlaceholderImage label="STUDIO / WORK ENVIRONMENT" aspectRatio="wide" className="w-full h-80 md:h-[50vh] lg:h-[60vh]" />
+                <img
+                  src={studioImg}
+                  alt="Studio"
+                  className="w-full h-80 md:h-[50vh] lg:h-[60vh] object-cover"
+                />
               </Reveal>
             </div>
           </div>
@@ -129,7 +139,11 @@ export default function Portfolio() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-32 w-full items-center">
             <div className="lg:col-span-5 order-2 lg:order-1">
               <Reveal>
-                <PlaceholderImage label="PORTRAIT / LIFESTYLE" aspectRatio="portrait" className="w-full max-w-xl mx-auto lg:max-w-none h-[60vh] lg:h-[80vh]" />
+                <img
+                  src={portraitImg}
+                  alt="Ali portrait"
+                  className="w-full max-w-xl mx-auto lg:max-w-none h-[60vh] lg:h-[80vh] object-cover"
+                />
               </Reveal>
             </div>
             <div className="lg:col-span-7 order-1 lg:order-2 flex flex-col justify-center">
@@ -137,9 +151,8 @@ export default function Portfolio() {
                 <h2 className="text-section-title mb-12 lg:mb-20">
                   {portfolioData.about.headline}
                 </h2>
-              </Reveal>
-              <Reveal delay={0.1}>
-                <p className="text-xl md:text-3xl text-muted-foreground font-light leading-relaxed max-w-3xl">
+
+                  <p className="text-xl md:text-3xl text-muted-foreground font-light leading-relaxed max-w-2xl">
                   {portfolioData.about.text}
                 </p>
               </Reveal>
@@ -179,16 +192,26 @@ export default function Portfolio() {
                   </div>
 
                   {/* Image Block */}
-                  <div className={`lg:col-span-7 ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
-                    <Reveal delay={0.3}>
-                      <PlaceholderImage label={`${exp.title} CONTEXT`} aspectRatio="video" className="w-full h-[50vh] lg:h-[70vh]" />
-                    </Reveal>
+                            <div className={`lg:col-span-7 ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
+                              <Reveal delay={0.3}>
+                                <img
+                                  src={
+                                    exp.id === "exp-1" ? tvImg :
+                                    exp.id === "exp-2" ? radioImg :
+                                    exp.id === "exp-3" ? filmImg :
+                                    exp.id === "exp-4" ? musicImg :
+                                    tvImg
+                                  }
+                                  alt={exp.title}
+                                  className="w-full h-[50vh] lg:h-[70vh] object-cover"
+                                />
+                              </Reveal>
+                            </div>
+                          </div>
+                        </section>
+                      );
+                    })}
                   </div>
-                </div>
-              </section>
-            );
-          })}
-        </div>
 
         {/* 6. SELECTED WORK */}
         <section id="work" className="min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-24 py-32 md:py-40 lg:py-56 max-w-[1800px] mx-auto border-b border-white/5">
