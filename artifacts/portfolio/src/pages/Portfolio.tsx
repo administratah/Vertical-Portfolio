@@ -96,7 +96,7 @@ export default function Portfolio() {
                         className="group flex items-center space-x-4 text-sm md:text-base uppercase tracking-[0.2em] font-medium text-muted-foreground hover:text-white transition-all duration-300 px-6 py-5"
                       >
                         <Download className="w-5 h-5" />
-                        <span>Download PDF</span>
+                        <span>Download Resume</span>
                       </a>
                     </div>
                   </Reveal>
