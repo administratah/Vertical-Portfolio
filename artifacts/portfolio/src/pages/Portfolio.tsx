@@ -67,7 +67,10 @@ export default function Portfolio() {
                   </Reveal>
 
                   <Reveal hero delay={0.4}>
-                    <p className="mt-10 text-lg md:text-xl lg:text-2xl text-muted-foreground font-light leading-relaxed max-w-2xl">
+                    <p className="mt-10 text-lg md:text-xl lg:text-2xl text-muted-foreground font-light leading-relaxed max-w-3xl hidden md:block text-justify">
+                      {portfolioData.header.description}
+                    </p>
+                    <p className="mt-10 text-lg md:text-xl lg:text-2xl text-muted-foreground font-light leading-relaxed max-w-3xl block md:hidden text-left">
                       {portfolioData.header.description}
                     </p>
                   </Reveal>
