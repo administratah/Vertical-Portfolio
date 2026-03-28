@@ -60,7 +60,7 @@ export const portfolioData = {
     {
       title: "Falaj Aldhaid",
       category: "Documentary / Arabic Dubbing",
-      description: "Audio production work for the Arabic version, including voice recording, editorial work, and mix handling."
+      description: "Handled the Arabic narration end-to-end, from voice recording through cleanup and editing."
     },
     {
       title: "Radio Production & Station Imaging",
@@ -71,15 +71,15 @@ export const portfolioData = {
   skills: [
     {
       category: "Audio Production",
-      items: "Recording, Editing, Mixing, Dialogue Cleanup, Voice Production, Sound Design"
+      items: "Recording, Editing, Mixing & Mastering, Dialogue Cleanup, Voice Production, Sound Design"
     },
     {
       category: "Broadcast & Studio",
-      items: "Broadcast Audio Workflows, Live Studio Support, Technical Coordination, Session Preparation, Troubleshooting, Production Communication"
+      items: "Broadcast Audio Workflows, Live Studio & OB Van Operations, Dante & Audio Networking, Computer Networking Fundamentals, Signal Routing (MADI/IP), Technical Coordination, Session Preparation, Troubleshooting, Production Communication"
     },
     {
       category: "Software / Tools",
-      items: "Pro Tools, Adobe Audition, iZotope RX, Reaper"
+      items: "Pro Tools, Ableton, Fl Studio, Reaper, Adobe Audition, iZotope RX"
     }
   ],
   recognition: {
@@ -94,9 +94,9 @@ export const portfolioData = {
   contact: {
     text: "Available for select projects and professional collaborations.",
     links: [
-      { label: "EMAIL", value: "sajiali.sa@gmail.com", href: "mailto:#" },
-      { label: "LINKEDIN", value: "linkedin.com/in/SajiAli", href: "#" },
-      { label: "PHONE", value: "+971 52 983 8022", href: "#" },
+      { label: "EMAIL", value: "sajiali.sa@gmail.com", href: "mailto:sajiali.sa@gmail.com" },
+      { label: "LINKEDIN", value: "linkedin.com/in/SajiAli", href: "linkedin.com/in/SajiAli" },
+      { label: "PHONE", value: "+971 52 983 8022", href: "+971 52 983 8022" },
       { label: "WEBSITE", value: "SajiAli.com", href: "#" }
     ]
   }
