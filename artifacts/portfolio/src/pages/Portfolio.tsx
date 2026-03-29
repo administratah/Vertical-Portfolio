@@ -10,6 +10,15 @@ import radioImg from "@/assets/radio.jpeg";
 import tvImg from "@/assets/tv.jpeg";
 import filmImg from "@/assets/film.jpeg";
 import musicImg from "@/assets/music.jpeg";
+import odImg from "@/assets/artists/od.jpg";
+import rotationImg from "@/assets/artists/rotation.jpg";
+import freekImg from "@/assets/artists/freek.jpg";
+import flippterImg from "@/assets/artists/flippter.jpg";
+import mvndilaImg from "@/assets/artists/mvndila.jpg";
+import toodopeImg from "@/assets/artists/toodope.jpg";
+import safariImg from "@/assets/film/safari.jpg";
+import sirbunirImg from "@/assets/film/sirbunir.jpg";
+import falajImg from "@/assets/film/falaj.jpg";
 
 export default function Portfolio() {
   const { scrollYProgress } = useScroll();
@@ -373,7 +382,6 @@ export default function Portfolio() {
           <div className="mt-40 lg:mt-56 pt-24 border-t border-white/10">
             <Reveal>
               <div className="flex flex-col gap-6 mb-20 lg:mb-28 max-w-3xl">
-
                 <p className="text-xs uppercase tracking-[0.3em] text-white/30">
                   Category
                 </p>
@@ -385,34 +393,57 @@ export default function Portfolio() {
                 <p className="text-lg md:text-xl text-muted-foreground font-light leading-relaxed">
                   {portfolioData.musicProduction.description}
                 </p>
-
               </div>
             </Reveal>
 
             {/* Artist photo grid */}
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-              {portfolioData.musicProduction.artists.map((artist, i) => (
-                <Reveal key={i} delay={i * 0.07}>
-                  <div className="group relative overflow-hidden cursor-pointer aspect-square bg-[#0d0d0d] border border-white/5 hover:border-white/20 transition-colors duration-500">
-                    {/* Artist name — centered, animates up on hover */}
-                    <div className="absolute inset-0 flex flex-col items-center justify-center p-6 z-10">
-                      <span className="text-xs uppercase tracking-[0.3em] text-white/30 mb-3 group-hover:text-white/50 transition-colors duration-500">Artist</span>
-                      <span className="text-3xl md:text-4xl lg:text-5xl font-display uppercase tracking-tight text-white/60 group-hover:text-white transition-all duration-500 text-center leading-tight">
-                        {artist.name}
+              {portfolioData.musicProduction.artists.map((artist, i) => {
+                const artistImage =
+                  artist.name === "O'D" ? odImg :
+                  artist.name === "roTation" ? rotationImg :
+                  artist.name === "Freek" ? freekImg :
+                  artist.name === "Flippter" ? flippterImg :
+                  artist.name === "Mvndila" ? mvndilaImg :
+                  artist.name === "TooDope" ? toodopeImg :
+                  odImg;
+
+                return (
+                  <Reveal key={i} delay={i * 0.07}>
+                    <div className="group relative overflow-hidden cursor-pointer aspect-square bg-[#0d0d0d] border border-white/5 hover:border-white/20 transition-colors duration-500">
+                      <img
+                        src={artistImage}
+                        alt={artist.name}
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+
+                      {/* Dark overlay for readability */}
+                      <div className="absolute inset-0 bg-black/45 group-hover:bg-black/30 transition-colors duration-500" />
+
+                      {/* Artist name */}
+                      <div className="absolute inset-0 flex flex-col items-center justify-center p-6 z-10">
+                        <span className="text-xs uppercase tracking-[0.3em] text-white/50 mb-3 group-hover:text-white/70 transition-colors duration-500">
+                          Artist
+                        </span>
+                        <span className="text-3xl md:text-4xl lg:text-5xl font-display uppercase tracking-tight text-white/80 group-hover:text-white transition-all duration-500 text-center leading-tight">
+                          {artist.name}
+                        </span>
+                      </div>
+
+                      {/* Subtle hover overlay */}
+                      <div className="absolute inset-0 bg-white/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
+
+                      {/* Corner index */}
+                      <span className="absolute top-4 right-5 text-xs font-display text-white/30 group-hover:text-white/50 transition-colors duration-500 z-20">
+                        0{i + 1}
                       </span>
                     </div>
-                    {/* Subtle hover overlay */}
-                    <div className="absolute inset-0 bg-white/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    {/* Corner index */}
-                    <span className="absolute top-4 right-5 text-xs font-display text-white/15 group-hover:text-white/30 transition-colors duration-500">
-                      0{i + 1}
-                    </span>
-                  </div>
-                </Reveal>
-              ))}
+                  </Reveal>
+                );
+              })}
             </div>
           </div>
-        </section>
+          </section>
 
         {/* 7. SKILLS */}
         <section id="skills" className="min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-24 py-32 md:py-40 lg:py-56 max-w-[1800px] mx-auto border-b border-white/5">
