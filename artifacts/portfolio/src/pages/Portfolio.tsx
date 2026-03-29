@@ -280,33 +280,41 @@ export default function Portfolio() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-20 lg:gap-32">
             {portfolioData.work
               .filter((project) => !('soundcloudSrc' in project && project.soundcloudSrc))
-              .map((project, i) => (
-                <Reveal key={i} delay={i * 0.1}>
-                  <div className="group cursor-pointer flex flex-col h-full">
-                    <div className="overflow-hidden mb-12 flex-grow">
-                      <PlaceholderImage
-                        label={project.title.toUpperCase()}
-                        aspectRatio="portrait"
-                        className="w-full h-[40vh] md:h-[50vh] lg:h-[60vh] transform group-hover:scale-105 transition-transform duration-1000 ease-out"
-                      />
+              .map((project, i) => {
+                const projectImage =
+                  project.title === "Sharjah Safari" ? safariImg :
+                  project.title === "Sir Bu Nu'ayr Island" ? sirbunirImg :
+                  project.title === "Falaj Aldhaid" ? falajImg :
+                  safariImg;
+
+                return (
+                  <Reveal key={i} delay={i * 0.1}>
+                    <div className="group cursor-pointer flex flex-col h-full">
+                      <div className="overflow-hidden mb-12 flex-grow">
+                        <img
+                          src={projectImage}
+                          alt={project.title}
+                          className="w-full h-[40vh] md:h-[50vh] lg:h-[60vh] object-cover transform group-hover:scale-105 transition-transform duration-1000 ease-out"
+                        />
+                      </div>
+                      <div className="flex justify-between items-start mb-6">
+                        <span className="text-sm uppercase tracking-[0.3em] text-muted-foreground border-b border-transparent group-hover:border-white/30 pb-1 transition-colors">
+                          {project.category}
+                        </span>
+                        <span className="text-xl font-display text-white/30">
+                          0{i + 1}
+                        </span>
+                      </div>
+                      <h3 className="text-4xl md:text-5xl lg:text-6xl font-display uppercase tracking-tight mb-6 group-hover:text-white transition-colors">
+                        {project.title}
+                      </h3>
+                      <p className="text-xl text-muted-foreground font-light leading-relaxed max-w-xl mb-8">
+                        {project.description}
+                      </p>
                     </div>
-                    <div className="flex justify-between items-start mb-6">
-                      <span className="text-sm uppercase tracking-[0.3em] text-muted-foreground border-b border-transparent group-hover:border-white/30 pb-1 transition-colors">
-                        {project.category}
-                      </span>
-                      <span className="text-xl font-display text-white/30">
-                        0{i + 1}
-                      </span>
-                    </div>
-                    <h3 className="text-4xl md:text-5xl lg:text-6xl font-display uppercase tracking-tight mb-6 group-hover:text-white transition-colors">
-                      {project.title}
-                    </h3>
-                    <p className="text-xl text-muted-foreground font-light leading-relaxed max-w-xl mb-8">
-                      {project.description}
-                    </p>
-                  </div>
-                </Reveal>
-              ))}
+                  </Reveal>
+                );
+              })}
           </div>
 
           {/* Radio project */}
