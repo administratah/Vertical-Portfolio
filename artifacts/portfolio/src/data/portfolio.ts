@@ -77,7 +77,7 @@ export const portfolioData = {
       { name: "roTation" },
       { name: "Flippter" },
       { name: "Freek" },
-      { name: "Toodope" },
+      { name: "TooDope" },
       { name: "Mvndila" },
     ]
   },
