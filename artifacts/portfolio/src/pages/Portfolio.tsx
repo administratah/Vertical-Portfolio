@@ -316,16 +316,20 @@ export default function Portfolio() {
           {/* ── Music Production ─────────────────────────────── */}
           <div className="mt-40 lg:mt-56 pt-24 border-t border-white/10">
             <Reveal>
-              <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-20 lg:mb-28">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.3em] text-white/30 mb-4">Category</p>
-                  <h3 className="text-5xl md:text-7xl lg:text-8xl font-display uppercase tracking-tight leading-none">
-                    {portfolioData.musicProduction.headline}
-                  </h3>
-                </div>
-                <p className="text-lg md:text-xl text-muted-foreground font-light leading-relaxed max-w-md md:text-right">
+              <div className="flex flex-col gap-6 mb-20 lg:mb-28 max-w-3xl">
+
+                <p className="text-xs uppercase tracking-[0.3em] text-white/30">
+                  Category
+                </p>
+
+                <h3 className="text-5xl md:text-7xl lg:text-8xl font-display uppercase tracking-tight leading-none">
+                  {portfolioData.musicProduction.headline}
+                </h3>
+
+                <p className="text-lg md:text-xl text-muted-foreground font-light leading-relaxed">
                   {portfolioData.musicProduction.description}
                 </p>
+
               </div>
             </Reveal>
 
