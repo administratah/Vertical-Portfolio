@@ -73,12 +73,12 @@ export const portfolioData = {
     headline: "Music Production",
     description: "Recording, mixing, and production work across independent and collaborative music projects — from creative development to final delivery.",
     artists: [
-      { name: "O'D" },
-      { name: "roTation" },
-      { name: "Flippter" },
-      { name: "Freek" },
-      { name: "TooDope" },
-      { name: "Mvndila" },
+      { name: "O'D", work: "Recording, arrangement support, and mix development." },
+      { name: "roTation", work: "Beatmaking, vocal handling, and final mix work." },
+      { name: "Flippter", work: "Creative production, recording, and mix support." },
+      { name: "Freek", work: "Production support, editing, and sound shaping." },
+      { name: "TooDope", work: "Tracking, editing, and overall sonic direction." },
+      { name: "Mvndila", work: "Music production, vocal direction, and cleanup." },
     ]
   },
   skills: [

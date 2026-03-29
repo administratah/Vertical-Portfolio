@@ -417,11 +417,14 @@ export default function Portfolio() {
                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
 
-                      {/* Dark overlay for readability */}
+                      {/* Base overlay */}
                       <div className="absolute inset-0 bg-black/45 group-hover:bg-black/30 transition-colors duration-500" />
 
+                      {/* Bottom gradient for role text */}
+                      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/85 via-black/45 to-transparent z-10" />
+
                       {/* Artist name */}
-                      <div className="absolute inset-0 flex flex-col items-center justify-center p-6 z-10">
+                      <div className="absolute inset-0 flex flex-col items-center justify-center p-6 z-20 transition-all duration-500 md:group-hover:-translate-y-8">
                         <span className="text-xs uppercase tracking-[0.3em] text-white/50 mb-3 group-hover:text-white/70 transition-colors duration-500">
                           Artist
                         </span>
@@ -430,11 +433,23 @@ export default function Portfolio() {
                         </span>
                       </div>
 
-                      {/* Subtle hover overlay */}
+                      {/* Role caption: visible on mobile, reveal on desktop hover */}
+                      <div className="absolute inset-x-0 bottom-0 z-20 p-4 md:p-5">
+                        <div className="translate-y-0 opacity-100 md:translate-y-4 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 transition-all duration-500">
+                          <p className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-white/50 mb-2">
+                            My Role
+                          </p>
+                          <p className="text-xs md:text-sm text-white/90 leading-relaxed max-w-[95%]">
+                            {artist.work}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Subtle hover sheen */}
                       <div className="absolute inset-0 bg-white/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
 
                       {/* Corner index */}
-                      <span className="absolute top-4 right-5 text-xs font-display text-white/30 group-hover:text-white/50 transition-colors duration-500 z-20">
+                      <span className="absolute top-4 right-5 text-xs font-display text-white/30 group-hover:text-white/50 transition-colors duration-500 z-30">
                         0{i + 1}
                       </span>
                     </div>
