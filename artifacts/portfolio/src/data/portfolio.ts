@@ -65,9 +65,22 @@ export const portfolioData = {
     {
       title: "Radio Production & Station Imaging",
       category: "Radio",
-      description: "Mixing, editing, sound design, and production of radio jingles, station IDs, show segments, promos, and commercial material."
+      description: "Mixing, editing, sound design, and production of radio jingles, station IDs, show segments, promos, and commercial material.",
+      soundcloudSrc: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/soundcloud%3Aplaylists%3A1456964344%3Fsecret_token%3Ds-yMnZrSbSM1b&color=%23000000&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
     }
   ],
+  musicProduction: {
+    headline: "Music Production",
+    description: "Recording, mixing, and production work across independent and collaborative music projects — from creative development to final delivery.",
+    artists: [
+      { name: "O'D" },
+      { name: "roTation" },
+      { name: "Flippter" },
+      { name: "Freek" },
+      { name: "Toodope" },
+      { name: "Mvndila" },
+    ]
+  },
   skills: [
     {
       category: "Audio Production",

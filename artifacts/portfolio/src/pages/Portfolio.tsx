@@ -262,37 +262,95 @@ export default function Portfolio() {
                   </div>
 
         {/* 6. SELECTED WORK */}
-        <section id="work" className="min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-24 py-32 md:py-40 lg:py-56 max-w-[1800px] mx-auto border-b border-white/5">
+        <section id="work" className="flex flex-col px-6 md:px-12 lg:px-24 py-32 md:py-40 lg:py-56 max-w-[1800px] mx-auto border-b border-white/5">
           <Reveal>
             <h2 className="text-section-title mb-32 lg:mb-48">Selected Work</h2>
           </Reveal>
-          
+
+          {/* Documentary + Radio projects */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-20 lg:gap-32">
             {portfolioData.work.map((project, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="group cursor-pointer flex flex-col h-full">
                   <div className="overflow-hidden mb-12 flex-grow">
-                    <PlaceholderImage 
-                      label={project.title.toUpperCase()} 
-                      aspectRatio="portrait" 
-                      className="w-full h-[60vh] md:h-[70vh] lg:h-[80vh] aspect-[4/3] transform group-hover:scale-105 transition-transform duration-1000 ease-out" 
+                    <PlaceholderImage
+                      label={project.title.toUpperCase()}
+                      aspectRatio="portrait"
+                      className="w-full h-[40vh] md:h-[50vh] lg:h-[60vh] transform group-hover:scale-105 transition-transform duration-1000 ease-out"
                     />
                   </div>
                   <div className="flex justify-between items-start mb-6">
                     <span className="text-sm uppercase tracking-[0.3em] text-muted-foreground border-b border-transparent group-hover:border-white/30 pb-1 transition-colors">
                       {project.category}
                     </span>
-                    <span className="text-xl font-display text-white/30">0{i+1}</span>
+                    <span className="text-xl font-display text-white/30">0{i + 1}</span>
                   </div>
                   <h3 className="text-4xl md:text-5xl lg:text-6xl font-display uppercase tracking-tight mb-6 group-hover:text-white transition-colors">
                     {project.title}
                   </h3>
-                  <p className="text-xl text-muted-foreground font-light leading-relaxed max-w-xl">
+                  <p className="text-xl text-muted-foreground font-light leading-relaxed max-w-xl mb-8">
                     {project.description}
                   </p>
+
+                  {/* SoundCloud embed — only for the Radio project */}
+                  {'soundcloudSrc' in project && project.soundcloudSrc && (
+                    <div className="mt-4 border-t border-white/10 pt-10">
+                      <p className="text-xs uppercase tracking-[0.3em] text-white/30 mb-6">Listen</p>
+                      <iframe
+                        width="100%"
+                        height="166"
+                        scrolling="no"
+                        frameBorder="no"
+                        allow="autoplay"
+                        src={project.soundcloudSrc}
+                        className="w-full"
+                        style={{ filter: "invert(1) brightness(0.9)" }}
+                      />
+                    </div>
+                  )}
                 </div>
               </Reveal>
             ))}
+          </div>
+
+          {/* ── Music Production ─────────────────────────────── */}
+          <div className="mt-40 lg:mt-56 pt-24 border-t border-white/10">
+            <Reveal>
+              <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-20 lg:mb-28">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.3em] text-white/30 mb-4">Category</p>
+                  <h3 className="text-5xl md:text-7xl lg:text-8xl font-display uppercase tracking-tight leading-none">
+                    {portfolioData.musicProduction.headline}
+                  </h3>
+                </div>
+                <p className="text-lg md:text-xl text-muted-foreground font-light leading-relaxed max-w-md md:text-right">
+                  {portfolioData.musicProduction.description}
+                </p>
+              </div>
+            </Reveal>
+
+            {/* Artist photo grid */}
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+              {portfolioData.musicProduction.artists.map((artist, i) => (
+                <Reveal key={i} delay={i * 0.07}>
+                  <div className="group relative overflow-hidden cursor-pointer aspect-square bg-[#0d0d0d] border border-white/5 hover:border-white/20 transition-colors duration-500">
+                    {/* Artist name — centered, animates up on hover */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center p-6 z-10">
+                      <span className="text-xs uppercase tracking-[0.3em] text-white/30 mb-3 group-hover:text-white/50 transition-colors duration-500">Artist</span>
+                      <span className="text-3xl md:text-4xl lg:text-5xl font-display uppercase tracking-tight text-white/60 group-hover:text-white transition-all duration-500 text-center leading-tight">
+                        {artist.name}
+                      </span>
+                    </div>
+                    {/* Subtle hover overlay */}
+                    <div className="absolute inset-0 bg-white/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    {/* Corner index */}
+                    <span className="absolute top-4 right-5 text-xs font-display text-white/15 group-hover:text-white/30 transition-colors duration-500">
+                      0{i + 1}
+                    </span>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </section>
 
