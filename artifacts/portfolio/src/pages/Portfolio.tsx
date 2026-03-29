@@ -4,7 +4,7 @@ import { Navigation } from "@/components/Navigation";
 import { PlaceholderImage } from "@/components/PlaceholderImage";
 import { Reveal } from "@/components/Reveal";
 import { ArrowRight, Download } from "lucide-react";
-import studioImg from "@/assets/studio.jpeg";
+import studioImg from "@/assets/studio.png";
 import portraitImg from "../assets/portrait.jpeg";
 import radioImg from "@/assets/radio.jpeg";
 import tvImg from "@/assets/tv.jpeg";
