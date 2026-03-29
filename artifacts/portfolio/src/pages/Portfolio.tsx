@@ -248,27 +248,33 @@ export default function Portfolio() {
                     </Reveal>
                   </div>
 
-                  {/* Image Block */}
-                            <div className={`lg:col-span-7 ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
-                              <Reveal delay={0.3}>
-                                <img
-                                  src={
-                                    exp.id === "exp-1" ? tvImg :
-                                    exp.id === "exp-2" ? radioImg :
-                                    exp.id === "exp-3" ? filmImg :
-                                    exp.id === "exp-4" ? musicImg :
-                                    tvImg
-                                  }
-                                  alt={exp.title}
-                                  className="w-full h-[50vh] lg:h-[70vh] object-cover"
-                                />
-                              </Reveal>
-                            </div>
-                          </div>
-                        </section>
-                      );
-                    })}
-                  </div>
+        {/* Image Block */}
+        <div className={`lg:col-span-7 ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
+          <Reveal delay={0.3}>
+            <img
+              src={
+                exp.id === "exp-1" ? tvImg :
+                exp.id === "exp-2" ? radioImg :
+                exp.id === "exp-3" ? filmImg :
+                exp.id === "exp-4" ? musicImg :
+                tvImg
+              }
+              alt={exp.title}
+              className={`w-full h-[50vh] lg:h-[70vh] object-cover ${
+                exp.id === "exp-1" ? "object-center" :
+                exp.id === "exp-2" ? "object-center" :
+                exp.id === "exp-3" ? "object-[center_30%]" :
+                exp.id === "exp-4" ? "object-[center_03%]" :
+                "object-center"
+              }`}
+            />
+          </Reveal>
+        </div>
+        </div>
+        </section>
+        );
+        })}
+        </div>
 
         {/* 6. SELECTED WORK */}
         <section id="work" className="flex flex-col px-6 md:px-12 lg:px-24 py-32 md:py-40 lg:py-56 max-w-[1800px] mx-auto border-b border-white/5">
