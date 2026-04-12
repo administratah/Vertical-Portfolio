@@ -51,6 +51,13 @@ export default function Portfolio() {
                   </h1>
                 </Reveal>
 
+                {/* Award line */}
+                <Reveal hero delay={0.1}>
+                  <p className="mt-6 md:mt-8 text-[11px] md:text-xs uppercase tracking-[0.25em] text-white/40 font-sans font-normal leading-relaxed max-w-2xl">
+                    {portfolioData.header.awards}
+                  </p>
+                </Reveal>
+
                 {/* Credibility line */}
                 <Reveal hero delay={0.1}>
                   <p className="mt-6 md:mt-8 text-[11px] md:text-xs uppercase tracking-[0.25em] text-white/40 font-sans font-normal leading-relaxed max-w-2xl">

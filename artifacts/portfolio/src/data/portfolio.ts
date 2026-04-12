@@ -2,7 +2,8 @@ export const portfolioData = {
   header: {
     name: "SAJI ALI.",
     title: "Broadcast Sound Engineer & Audio Producer",
-    credibility: "Sheikh Hamdan Award Winner  •  Member of SMPTE (Society of Motion Picture and Television Engineers)",
+    awards: "Award-Winning Documentaries",
+    credibility: "Member, SMPTE (Society of Motion Picture and Television Engineers)\nMember, AES (Audio Engineering Society)",
     tags: ["Broadcast", "Radio", "Film", "Dubbing", "Music"],
     description: "Professional audio across broadcast, film, radio, and dubbing — delivering clarity, control, and storytelling at production-grade standards.",
     year: "2026"
@@ -73,13 +74,13 @@ export const portfolioData = {
     headline: "Music Production",
     description: "Recording, mixing, and production work across independent and collaborative music projects — from creative development to final delivery.",
     artists: [
-      { name: "O'D", work: "Recording, arrangement support, and mix development." },
-      { name: "roTation", work: "Beatmaking, vocal handling, and final mix work." },
-      { name: "Flippter", work: "Creative production, recording, and mix support." },
-      { name: "Freek", work: "Production support, editing, and sound shaping." },
-      { name: "TooDope", work: "Tracking, editing, and overall sonic direction." },
-      { name: "Mvndila", work: "Music production, vocal direction, and cleanup." },
-    ]
+  { name: "O'D", work: "Mixed and mastered O'D's first EP, with additional co-production contributions." },
+  { name: "roTation", work: "Worked across multiple releases including 'Green', '249 (We Almost Lost It)', and earlier catalog — handling production, vocal work, mixing and mastering." },
+  { name: "Flippter", work: "Mixed and mastered 'Gorasa'." },
+  { name: "Freek", work: "Co-produced, mixed, and mastered 'Wala Kilma'." },
+  { name: "TooDope", work: "Mixed several tracks, including the latest release 'Lissa'." },
+  { name: "Mvndila", work: "Co-produced and co-mixed 'Bako'." },
+]
   },
   skills: [
     {
