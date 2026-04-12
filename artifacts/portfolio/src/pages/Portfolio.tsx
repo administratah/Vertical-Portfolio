@@ -59,11 +59,24 @@ export default function Portfolio() {
                 </Reveal>
 
                 {/* Credibility line */}
-                <Reveal hero delay={0.1}>
-                  <p className="mt-6 md:mt-8 text-[11px] md:text-xs uppercase tracking-[0.25em] text-white/40 font-sans font-normal leading-relaxed max-w-2xl">
-                    {portfolioData.header.credibility}
-                  </p>
-                </Reveal>
+<Reveal hero delay={0.1}>
+  <div className="mt-6 md:mt-8 text-[11px] md:text-xs uppercase tracking-[0.25em] text-white/40 font-sans font-normal leading-relaxed max-w-2xl">
+    
+    {portfolioData.header.credibility.map((item, i) => (
+      <div key={i}>
+        <a
+          href={item.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-white transition"
+        >
+          {item.label}
+        </a>
+      </div>
+    ))}
+
+  </div>
+</Reveal>
 
                 <div className="mt-10 md:mt-16 max-w-3xl">
                   <Reveal hero delay={0.2}>
