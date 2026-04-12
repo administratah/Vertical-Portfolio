@@ -2,7 +2,7 @@ export const portfolioData = {
   header: {
     name: "SAJI ALI.",
     title: "Broadcast Sound Engineer & Audio Producer",
-    awards: "Award-Winning Documentaries",
+    awards: "Sheikh Hamdan Award winner\nAward-Winning Documentaries\nAward-Winning TV Shows",
     credibility: "Member, SMPTE (Society of Motion Picture and Television Engineers)\nMember, AES (Audio Engineering Society)",
     tags: ["Broadcast", "Radio", "Film", "Dubbing", "Music"],
     description: "Professional audio across broadcast, film, radio, and dubbing — delivering clarity, control, and storytelling at production-grade standards.",
