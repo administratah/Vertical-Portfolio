@@ -51,38 +51,24 @@ export default function Portfolio() {
                   </h1>
                 </Reveal>
 
-                {/* Award line */}
+                {/* Awards & membership — single clean line */}
                 <Reveal hero delay={0.1}>
-                  <p className="mt-6 md:mt-8 text-[11px] md:text-xs uppercase tracking-[0.25em] text-white/40 font-sans font-normal leading-relaxed max-w-2xl">
+                  <p className="mt-6 md:mt-8 text-[11px] md:text-xs uppercase tracking-[0.3em] text-white/35 font-sans font-normal">
                     {portfolioData.header.awards}
                   </p>
                 </Reveal>
-
-                {/* Credibility line */}
-<Reveal hero delay={0.1}>
-  <div className="mt-6 md:mt-8 text-[11px] md:text-xs uppercase tracking-[0.25em] text-white/40 font-sans font-normal leading-relaxed max-w-2xl">
-    
-    {portfolioData.header.credibility.map((item, i) => (
-      <div key={i}>
-        <a
-          href={item.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:text-white transition"
-        >
-          {item.label}
-        </a>
-      </div>
-    ))}
-
-  </div>
-</Reveal>
 
                 <div className="mt-10 md:mt-16 max-w-3xl">
                   <Reveal hero delay={0.2}>
                     <h2 className="text-2xl md:text-4xl lg:text-5xl font-display uppercase tracking-widest text-foreground/90 leading-tight">
                       {portfolioData.header.title}
                     </h2>
+                  </Reveal>
+
+                  <Reveal hero delay={0.25}>
+                    <p className="mt-4 md:mt-5 text-base md:text-xl text-white/55 font-light leading-snug tracking-wide">
+                      {portfolioData.header.tagline}
+                    </p>
                   </Reveal>
 
                   <Reveal hero delay={0.3}>
