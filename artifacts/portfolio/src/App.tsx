@@ -4,7 +4,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Portfolio from "@/pages/Portfolio";
-import { LangProvider, useLang } from "@/contexts/LanguageContext";
 
 const queryClient = new QueryClient();
 
@@ -17,25 +16,14 @@ function Router() {
   );
 }
 
-function AppShell() {
-  const { lang } = useLang();
-  return (
-    <div dir={lang === "ar" ? "rtl" : "ltr"} lang={lang} className="contents">
-      <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-        <Router />
-      </WouterRouter>
-      <Toaster />
-    </div>
-  );
-}
-
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <LangProvider>
-          <AppShell />
-        </LangProvider>
+        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+          <Router />
+        </WouterRouter>
+        <Toaster />
       </TooltipProvider>
     </QueryClientProvider>
   );
