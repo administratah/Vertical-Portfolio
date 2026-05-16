@@ -19,6 +19,7 @@ import toodopeImg from "@/assets/artists/toodope.jpg";
 import safariImg from "@/assets/film/safari.jpg";
 import sirbunirImg from "@/assets/film/sirbunir.jpg";
 import falajImg from "@/assets/film/falaj.jpg";
+import { ContactForm } from "@/components/ContactForm";
 
 export default function Portfolio() {
   const { scrollYProgress } = useScroll();
@@ -535,42 +536,44 @@ export default function Portfolio() {
         </section>
 
         {/* 9. CONTACT */}
-        <section id="contact" className="min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-24 py-32 md:py-40 lg:py-56 max-w-[1800px] mx-auto">
-          <Reveal>
-            <h2 className="text-[15vw] md:text-[14vw] lg:text-[13vw] leading-[0.8] font-display uppercase tracking-tighter mb-24 md:mb-32 text-center md:text-left">
-              Let's Connect
-            </h2>
-          </Reveal>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-32 mt-12 items-start">
-            <Reveal delay={0.1}>
-              <p className="text-3xl md:text-5xl lg:text-5xl text-muted-foreground font-light leading-tight text-balance">
-                {portfolioData.contact.text}
-              </p>
-            </Reveal>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-16 lg:gap-24">
-              {portfolioData.contact.links.map((link, i) => (
-                <Reveal key={i} delay={0.2 + (i * 0.05)}>
-                  <a href={link.href} className="group block">
-                    <span className="text-sm uppercase tracking-[0.4em] text-muted-foreground block mb-6">
-                      {link.label}
-                    </span>
-                    <span className="text-2xl md:text-3xl font-display uppercase tracking-wide border-b border-transparent group-hover:border-white transition-colors pb-2">
-                      {link.value}
-                    </span>
-                  </a>
-                </Reveal>
-              ))}
-            </div>
-          </div>
+                <section id="contact" className="min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-24 py-32 md:py-40 lg:py-56 max-w-[1800px] mx-auto">
+                  <Reveal>
+                    <h2 className="text-[15vw] md:text-[14vw] lg:text-[13vw] leading-[0.8] font-display uppercase tracking-tighter mb-24 md:mb-32 text-center md:text-left">
+                      Let's Connect
+                    </h2>
+                  </Reveal>
 
-          <Reveal delay={0.4} className="mt-40 lg:mt-56 pt-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-sm md:text-base uppercase tracking-[0.3em] text-muted-foreground">
-            <span>© {portfolioData.header.year} {portfolioData.header.name}</span>
-            <span className="mt-6 md:mt-0">All Rights Reserved</span>
-          </Reveal>
-        </section>
-      </main>
-    </div>
-  );
-}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-32 mt-12 items-start">
+                    <Reveal delay={0.1}>
+                      <p className="text-3xl md:text-5xl lg:text-5xl text-muted-foreground font-light leading-tight text-balance">
+                        {portfolioData.contact.text}
+                      </p>
+                    </Reveal>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-16 lg:gap-24">
+                      {portfolioData.contact.links.map((link, i) => (
+                        <Reveal key={i} delay={0.2 + (i * 0.05)}>
+                          <a href={link.href} className="group block">
+                            <span className="text-sm uppercase tracking-[0.4em] text-muted-foreground block mb-6">
+                              {link.label}
+                            </span>
+                            <span className="text-2xl md:text-3xl font-display uppercase tracking-wide border-b border-transparent group-hover:border-white transition-colors pb-2">
+                              {link.value}
+                            </span>
+                          </a>
+                        </Reveal>
+                      ))}
+                    </div>
+                  </div>
+
+                  <ContactForm />
+
+                  <Reveal delay={0.4} className="mt-40 lg:mt-56 pt-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-sm md:text-base uppercase tracking-[0.3em] text-muted-foreground">
+                    <span>© {portfolioData.header.year} {portfolioData.header.name}</span>
+                    <span className="mt-6 md:mt-0">All Rights Reserved</span>
+                  </Reveal>
+                </section>
+              </main>
+            </div>
+          );
+        }
