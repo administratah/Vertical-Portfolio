@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 type FormState = "idle" | "loading" | "success" | "error";
 
 export function ContactForm() {
   const [formState, setFormState] = useState<FormState>("idle");
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -19,16 +22,22 @@ export function ContactForm() {
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    if (!recaptchaToken) {
+      alert("Please complete the reCAPTCHA.");
+      return;
+    }
     setFormState("loading");
     try {
       const res = await fetch("https://api.sajiali.com/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, recaptchaToken }),
       });
       if (res.ok) {
         setFormState("success");
         setForm({ name: "", email: "", subject: "", message: "" });
+        recaptchaRef.current?.reset();
+        setRecaptchaToken(null);
       } else {
         setFormState("error");
       }
@@ -87,6 +96,15 @@ export function ContactForm() {
           placeholder="Your Message"
           rows={5}
           className={`${inputClass} resize-none`}
+        />
+      </div>
+
+      <div className="mb-8">
+        <ReCAPTCHA
+          ref={recaptchaRef}
+          sitekey="6Ldjb_osAAAAANlGsoOWlcK1YsUdC9fmOlTcWa1_"
+          onChange={(token) => setRecaptchaToken(token)}
+          theme="dark"
         />
       </div>
 
