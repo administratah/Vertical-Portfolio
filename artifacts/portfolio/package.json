@@ -75,7 +75,10 @@
     "zod": "catalog:"
   },
   "dependencies": {
+    "@21st-sdk/react": "latest",
+    "@ai-sdk/react": "latest",
     "@types/react-google-recaptcha": "^2.1.9",
+    "ai": "latest",
     "react-google-recaptcha": "^3.1.0"
   }
 }
