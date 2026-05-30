@@ -671,47 +671,37 @@ export default function Portfolio() {
         </section>
 
         {/* ─── SCENE 11: CONTACT ─── */}
-        <section
-          id="contact"
-          className="min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-20 py-28 md:py-40 max-w-[1700px] mx-auto"
-        >
-          <ChapterLabel num="08" title="Contact" className="mb-12" />
-
-          <h2
-            className="font-display font-bold italic normal-case leading-[0.82] text-foreground/90 mb-16 md:mb-24"
-            style={{ fontSize: "clamp(2.8rem, 10vw, 12rem)" }}
-          >
-            <SplitWords text="Let's make something." />
-          </h2>
-
-          <motion.div
-            className="w-full h-px bg-white/[0.08] mb-14 origin-left"
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: E }}
-            style={{ willChange: "transform" }}
-          />
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-20 items-start">
-            <FadeUp delay={0.08}>
-              <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground font-sans font-light leading-relaxed text-balance">
-                {portfolioData.contact.text}
-              </p>
-            </FadeUp>
-            
-          </div>
-
-          <ContactForm />
-
-          <FadeUp
-            delay={0.2}
-            className="mt-24 pt-10 border-t border-white/[0.06] flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-[0.4em] text-muted-foreground/35 font-sans"
-          >
-            <span>© {portfolioData.header.year} Saji Ali</span>
-            <span>Senior Broadcast Engineer &amp; Audio Specialist</span>
-          </FadeUp>
-        </section>
+<section
+  id="contact"
+  className="min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-20 py-28 md:py-40 max-w-[1700px] mx-auto"
+>
+  <ChapterLabel num="08" title="Contact" className="mb-12" />
+  <h2
+    className="font-display font-bold italic normal-case leading-[0.82] text-foreground/90 mb-16 md:mb-24"
+    style={{ fontSize: "clamp(2.8rem, 10vw, 12rem)" }}
+  >
+    Let's make something.
+  </h2>
+  <motion.div
+    className="w-full h-px bg-white/[0.08] mb-14 origin-left"
+    initial={{ scaleX: 0 }}
+    whileInView={{ scaleX: 1 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.5, ease: E }}
+    style={{ willChange: "transform" }}
+  />
+  <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground font-sans font-light leading-relaxed text-balance mb-16">
+    {portfolioData.contact.text}
+  </p>
+  <ContactForm />
+  <FadeUp
+    delay={0.2}
+    className="mt-24 pt-10 border-t border-white/[0.06] flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-[0.4em] text-muted-foreground/35 font-sans"
+  >
+    <span>© {portfolioData.header.year} Saji Ali</span>
+    <span>Senior Broadcast Engineer &amp; Audio Specialist</span>
+  </FadeUp>
+</section>
       </main>
     </div>
   )
