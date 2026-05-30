@@ -699,18 +699,7 @@ export default function Portfolio() {
                 {portfolioData.contact.text}
               </p>
             </FadeUp>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
-              {portfolioData.contact.links.map((link, i) => (
-                <FadeUp key={i} delay={0.1 + i * 0.06}>
-                  <a href={link.href} className="group block">
-                    <span className="text-[10px] uppercase tracking-[0.5em] text-muted-foreground/48 block mb-3 font-sans">{link.label}</span>
-                    <span className="text-base md:text-lg font-display font-bold normal-case italic border-b border-transparent group-hover:border-accent/45 text-foreground/78 group-hover:text-foreground transition-all duration-200 pb-0.5">
-                      {link.value}
-                    </span>
-                  </a>
-                </FadeUp>
-              ))}
-            </div>
+            
           </div>
 
           <ContactForm />
