@@ -116,12 +116,6 @@ export const portfolioData = {
     ]
   },
   contact: {
-    text: "Available for select projects and professional collaborations.",
-    links: [
-      { label: "EMAIL", value: "sajiali.sa@gmail.com", href: "mailto:sajiali.sa@gmail.com" },
-      { label: "LINKEDIN", value: "linkedin.com/in/SajiAli", href: "linkedin.com/in/SajiAli" },
-      { label: "PHONE", value: "+971 52 983 8022", href: "+971 52 983 8022" },
-      { label: "WEBSITE", value: "SajiAli.com", href: "#" }
-    ]
+    text: "Available for select projects and professional collaborations."
   }
 };

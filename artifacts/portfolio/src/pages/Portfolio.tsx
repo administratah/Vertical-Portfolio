@@ -768,16 +768,12 @@ export default function Portfolio() {
           className="min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-20 py-28 md:py-40 max-w-[1700px] mx-auto"
         >
           <ChapterLabel num="08" title="Contact" className="mb-12" />
-
-          {/* Cinematic heading — word-split reveal */}
           <h2
             className="font-display font-bold italic normal-case leading-[0.82] text-foreground/90 mb-16 md:mb-24"
             style={{ fontSize: "clamp(2.8rem, 10vw, 12rem)" }}
           >
             <SplitWords text="Let's make something." />
           </h2>
-
-          {/* Reveal line */}
           <motion.div
             className="w-full h-px bg-white/[0.08] mb-14 origin-left"
             initial={{ scaleX: 0 }}
@@ -785,29 +781,11 @@ export default function Portfolio() {
             viewport={{ once: true }}
             transition={{ duration: 1.4, ease: EASE, delay: 0.25 }}
           />
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-20 items-start">
-            <FadeUp delay={0.1}>
-              <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground font-sans font-light leading-relaxed text-balance">
-                {portfolioData.contact.text}
-              </p>
-            </FadeUp>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
-              {portfolioData.contact.links.map((link, i) => (
-                <FadeUp key={i} delay={0.14 + i * 0.07}>
-                  <a href={link.href} className="group block">
-                    <span className="text-[10px] uppercase tracking-[0.5em] text-muted-foreground/48 block mb-3 font-sans">
-                      {link.label}
-                    </span>
-                    <span className="text-base md:text-lg font-display font-bold normal-case italic border-b border-transparent group-hover:border-accent/45 text-foreground/78 group-hover:text-foreground transition-all duration-300 pb-0.5">
-                      {link.value}
-                    </span>
-                  </a>
-                </FadeUp>
-              ))}
-            </div>
-          </div>
-
+          <FadeUp delay={0.1} className="mb-20">
+            <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground font-sans font-light leading-relaxed text-balance">
+              {portfolioData.contact.text}
+            </p>
+          </FadeUp>
           <ContactForm />
 
           <FadeUp
