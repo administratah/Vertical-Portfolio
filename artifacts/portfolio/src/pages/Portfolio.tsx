@@ -1,9 +1,7 @@
-import { useRef } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { portfolioData } from "@/data/portfolio"
 import { Navigation } from "@/components/Navigation"
 import { PlaceholderImage } from "@/components/PlaceholderImage"
-import { Card3D } from "@/components/Card3D"
 import { ContactForm } from "@/components/ContactForm"
 import { Download, ArrowUpRight } from "lucide-react"
 import studioImg from "@/assets/studio.png"
@@ -22,49 +20,50 @@ import safariImg from "@/assets/film/safari.jpg"
 import sirbunirImg from "@/assets/film/sirbunir.jpg"
 import falajImg from "@/assets/film/falaj.jpg"
 
-const EASE = [0.16, 1, 0.3, 1] as const
+/* All scroll-driven 3D (useScroll + target refs) is replaced with whileInView.
+   This eliminates ~12 concurrent scroll listeners — the primary perf bottleneck.
+   Durations capped at 0.45s. No rotateX/rotateY/perspective/scale on scroll. */
 
-const EXP_IMAGES = [tvImg, radioImg, filmImg, musicImg]
-const EXP_OBJECT_POS = ["center", "center", "center 30%", "center 3%"]
-const EXP_DIVIDER_SRCS = [tvImg, radioImg, filmImg]
+const EXP_IMAGES    = [tvImg, radioImg, filmImg, musicImg]
+const EXP_OBJ_POS   = ["center", "center", "center 30%", "center 3%"]
+const EXP_DIV_IMGS  = [tvImg, radioImg, filmImg]
 
-/* ─────────────────────────────────────────
-   INLINE COMPONENTS
-───────────────────────────────────────── */
+/* ─── Shared ease ─── */
+const E = "easeOut" as const
 
-/** Small amber chapter label: "01 / The Craft" */
+/* ─── Chapter label ─── */
 function ChapterLabel({ num, title, className = "" }: { num: string; title: string; className?: string }) {
   return (
     <motion.div
       className={`flex items-center gap-3 ${className}`}
-      initial={{ opacity: 0, x: -14 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, margin: "-8%" }}
-      transition={{ duration: 0.9, ease: EASE }}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: "-5%" }}
+      transition={{ duration: 0.35, ease: E }}
     >
-      <span className="text-accent text-xs font-sans font-light tabular-nums">{num}</span>
+      <span className="text-accent text-xs font-sans tabular-nums">{num}</span>
       <span className="w-6 h-px bg-white/20" />
       <span className="text-[10px] uppercase tracking-[0.5em] text-muted-foreground font-sans">{title}</span>
     </motion.div>
   )
 }
 
-/** Simple fade+y reveal — no overflow clip */
+/* ─── Fade + small y rise ─── */
 function FadeUp({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: 26 }}
+      initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-8%" }}
-      transition={{ duration: 1.05, delay, ease: EASE }}
+      viewport={{ once: true, margin: "-5%" }}
+      transition={{ duration: 0.45, delay, ease: E }}
     >
       {children}
     </motion.div>
   )
 }
 
-/** Word-split reveal for the contact heading */
+/* ─── Word-split for contact heading ─── */
 function SplitWords({ text, className = "", baseDelay = 0 }: { text: string; className?: string; baseDelay?: number }) {
   return (
     <span className={className} aria-label={text}>
@@ -72,10 +71,10 @@ function SplitWords({ text, className = "", baseDelay = 0 }: { text: string; cla
         <span key={i} className="inline-block overflow-hidden mr-[0.15em] last:mr-0" style={{ verticalAlign: "bottom" }}>
           <motion.span
             className="inline-block"
-            initial={{ y: "112%" }}
+            initial={{ y: "105%" }}
             whileInView={{ y: "0%" }}
-            viewport={{ once: true, margin: "-8%" }}
-            transition={{ duration: 1.2, delay: baseDelay + i * 0.14, ease: EASE }}
+            viewport={{ once: true, margin: "-5%" }}
+            transition={{ duration: 0.45, delay: baseDelay + i * 0.09, ease: E }}
           >
             {word}
           </motion.span>
@@ -85,230 +84,189 @@ function SplitWords({ text, className = "", baseDelay = 0 }: { text: string; cla
   )
 }
 
-/**
- * 3D cinematic image divider between scenes.
- * Tilts on rotateX as it scrolls through the viewport — "page turning" effect.
- */
+/* ─── Image divider between scenes — whileInView fade only (no scroll listener) ─── */
 function CinematicDivider({ src, alt, label, objectPosition = "center" }: {
   src: string; alt: string; label?: string; objectPosition?: string
 }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
-  const rotateX = useTransform(scrollYProgress, [0, 0.5, 1], [20, 0, -20])
-  const scale   = useTransform(scrollYProgress, [0, 0.35, 0.65, 1], [0.86, 1.02, 1.02, 0.86])
-  const opacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0])
-
   return (
-    <div ref={ref} className="relative overflow-hidden" style={{ height: "58vh", perspective: "1200px" }}>
-      <motion.div
-        className="absolute inset-[-10%] w-[120%] h-[120%]"
-        style={{ rotateX, scale, opacity, willChange: "transform, opacity" }}
-      >
-        <img
-          src={src} alt={alt}
-          className="w-full h-full object-cover"
-          style={{ objectPosition, filter: "grayscale(100%) sepia(10%) brightness(0.35) contrast(1.15)" }}
-        />
-      </motion.div>
+    <motion.div
+      className="relative overflow-hidden"
+      style={{ height: "50vh" }}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: "-5%" }}
+      transition={{ duration: 0.5, ease: E }}
+    >
+      <img
+        src={src} alt={alt} loading="lazy"
+        className="w-full h-full object-cover"
+        style={{ objectPosition, filter: "grayscale(100%) sepia(10%) brightness(0.35) contrast(1.12)" }}
+      />
       <div className="absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-background to-transparent pointer-events-none z-10" />
       <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
       {label && (
-        <motion.div className="absolute inset-0 flex items-center justify-center z-20" style={{ opacity }}>
-          <span className="text-[10px] uppercase tracking-[0.65em] text-foreground/30 font-sans">{label}</span>
-        </motion.div>
+        <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+          <span className="text-[10px] uppercase tracking-[0.65em] text-foreground/28 font-sans">{label}</span>
+        </div>
       )}
-    </div>
+    </motion.div>
   )
 }
 
-/**
- * One cinematic experience scene (TV, Radio, Film, Music).
- * The image tilts on rotateY as it enters/exits the viewport — "physically turning to face you".
- */
+/* ─── Experience scene — whileInView only, no per-section scroll listener ─── */
 function ExperienceScene({ exp, image, objectPos, index }: {
   exp: (typeof portfolioData.experience)[0]
-  image: string
-  objectPos: string
-  index: number
+  image: string; objectPos: string; index: number
 }) {
-  const ref = useRef<HTMLElement>(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.9", "end 0.1"] })
   const isEven = index % 2 !== 0
-
-  const imgRotateY = useTransform(scrollYProgress, [0, 0.38, 0.62, 1], isEven ? [-12, 0, 0, 12] : [12, 0, 0, -12])
-  const imgScale   = useTransform(scrollYProgress, [0, 0.38, 0.62, 1], [0.92, 1, 1, 0.92])
-  const imgOpacity = useTransform(scrollYProgress, [0, 0.11, 0.89, 1], [0, 1, 1, 0])
-
-  const chapterLabel = exp.title.charAt(0).toUpperCase() + exp.title.slice(1).toLowerCase()
+  const label  = exp.title.charAt(0).toUpperCase() + exp.title.slice(1).toLowerCase()
 
   return (
     <section
-      ref={ref}
       id={index === 0 ? "experience" : exp.id}
       className="relative min-h-screen flex items-center px-6 md:px-12 lg:px-20 py-28 md:py-36 max-w-[1700px] mx-auto border-b border-white/[0.05]"
     >
-      {/* Ghost index number */}
-      <span className="absolute right-4 lg:right-10 top-1/2 -translate-y-1/2 text-[28vw] lg:text-[20vw] font-display font-bold text-white/[0.022] pointer-events-none select-none leading-none italic">
+      <span className="absolute right-4 lg:right-10 top-1/2 -translate-y-1/2 text-[28vw] lg:text-[20vw] font-display font-bold text-white/[0.02] pointer-events-none select-none leading-none italic">
         0{index + 1}
       </span>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 w-full items-center z-10">
-        {/* Text */}
         <div className={`flex flex-col ${isEven ? "lg:order-2" : "lg:order-1"}`}>
           <ChapterLabel num={`0${index + 1}`} title="Chapter" className="mb-10" />
-          <FadeUp delay={0.08}>
+          <FadeUp delay={0.06}>
             <h2
               className="font-display font-bold italic normal-case leading-[0.88] mb-8 text-foreground/95"
               style={{ fontSize: "clamp(4rem, 10vw, 11rem)" }}
             >
-              {chapterLabel}.
+              {label}.
             </h2>
           </FadeUp>
-          <FadeUp delay={0.2}>
+          <FadeUp delay={0.14}>
             <p className="text-lg md:text-xl text-muted-foreground font-sans font-light leading-relaxed max-w-md">
               {exp.description}
             </p>
           </FadeUp>
         </div>
 
-        {/* Image — 3D rotateY on scroll */}
-        <div
-          className={`relative ${isEven ? "lg:order-1" : "lg:order-2"}`}
-          style={{ perspective: "1100px" }}
+        {/* Image — simple whileInView fade, no 3D transform */}
+        <motion.div
+          className={`overflow-hidden ${isEven ? "lg:order-1" : "lg:order-2"}`}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-5%" }}
+          transition={{ duration: 0.45, delay: 0.1, ease: E }}
         >
-          <motion.div
-            className="overflow-hidden"
-            style={{ rotateY: imgRotateY, scale: imgScale, opacity: imgOpacity, willChange: "transform, opacity" }}
-          >
-            <img
-              src={image} alt={exp.title}
-              className="w-full h-[50vh] lg:h-[66vh] object-cover"
-              style={{
-                objectPosition: objectPos,
-                filter: "grayscale(35%) sepia(14%) brightness(0.86) contrast(1.08)",
-              }}
-            />
-          </motion.div>
-        </div>
+          <img
+            src={image} alt={exp.title} loading="lazy"
+            className="w-full h-[50vh] lg:h-[66vh] object-cover"
+            style={{ objectPosition: objectPos, filter: "grayscale(30%) sepia(12%) brightness(0.88) contrast(1.06)" }}
+          />
+        </motion.div>
       </div>
     </section>
   )
 }
 
-/** Documentary work card — tilts on rotateX as it scrolls into view */
+/* ─── Work card — whileInView only, no per-card scroll listener ─── */
 function WorkCard({ project, image, index }: {
-  project: (typeof portfolioData.work)[0]
-  image: string
-  index: number
+  project: (typeof portfolioData.work)[0]; image: string; index: number
 }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.9", "end 0.1"] })
-  const rotateX = useTransform(scrollYProgress, [0, 0.35, 0.65, 1], [14, 0, 0, -14])
-  const opacity = useTransform(scrollYProgress, [0, 0.13, 0.87, 1], [0, 1, 1, 0])
-
   return (
-    <div ref={ref} style={{ perspective: "1100px" }}>
-      <motion.div
-        style={{ rotateX, opacity, willChange: "transform, opacity" }}
-        className="group flex flex-col"
-      >
-        <div className="overflow-hidden mb-6 relative">
-          <img
-            src={image} alt={project.title}
-            className="w-full h-[42vh] md:h-[50vh] object-cover transition-transform duration-[1100ms] ease-out group-hover:scale-[1.04]"
-            style={{ filter: "grayscale(25%) sepia(12%) brightness(0.88) contrast(1.06)" }}
-          />
-          <div className="absolute inset-0 bg-background/0 group-hover:bg-background/12 transition-colors duration-700" />
-        </div>
-        <div className="flex justify-between items-start mb-3">
-          <span className="text-[10px] uppercase tracking-[0.45em] text-accent font-sans">{project.category}</span>
-          <span className="text-xs font-display italic text-muted-foreground/40">0{index + 1}</span>
-        </div>
-        <h3 className="text-3xl md:text-4xl font-display font-bold normal-case italic mb-3 text-foreground/88 group-hover:text-foreground transition-colors duration-400">
-          {project.title}
-        </h3>
-        <p className="text-base text-muted-foreground font-sans font-light leading-relaxed max-w-sm">
-          {project.description}
-        </p>
-      </motion.div>
-    </div>
+    <motion.div
+      className="group flex flex-col"
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-5%" }}
+      transition={{ duration: 0.45, delay: index * 0.07, ease: E }}
+    >
+      <div className="overflow-hidden mb-6 relative">
+        <img
+          src={image} alt={project.title} loading="lazy"
+          className="w-full h-[42vh] md:h-[50vh] object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+          style={{ filter: "grayscale(20%) sepia(10%) brightness(0.9) contrast(1.04)", willChange: "transform" }}
+        />
+        <div className="absolute inset-0 bg-background/0 group-hover:bg-background/10 transition-colors duration-300" />
+      </div>
+      <div className="flex justify-between items-start mb-3">
+        <span className="text-[10px] uppercase tracking-[0.45em] text-accent font-sans">{project.category}</span>
+        <span className="text-xs font-display italic text-muted-foreground/40">0{index + 1}</span>
+      </div>
+      <h3 className="text-3xl md:text-4xl font-display font-bold normal-case italic mb-3 text-foreground/88 group-hover:text-foreground transition-colors duration-300">
+        {project.title}
+      </h3>
+      <p className="text-base text-muted-foreground font-sans font-light leading-relaxed max-w-sm">
+        {project.description}
+      </p>
+    </motion.div>
   )
 }
 
-/* ═══════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════
    PORTFOLIO
-═══════════════════════════════════════════════════════════ */
+═══════════════════════════════════════ */
 export default function Portfolio() {
+  /* Single global scroll listener — shared by progress bar + hero fade */
   const { scrollYProgress } = useScroll()
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.11], [1, 0])
-  const heroScale   = useTransform(scrollYProgress, [0, 0.11], [1, 0.97])
-  const heroY       = useTransform(scrollYProgress, [0, 0.16], ["0vh", "-6vh"])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0])
 
   return (
     <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
       <Navigation />
 
-      {/* Scroll progress — warm amber line */}
+      {/* Progress bar — shares the single global scroll listener */}
       <motion.div
         className="fixed top-0 left-0 right-0 z-[100] origin-left"
         style={{
           scaleX: scrollYProgress,
           height: "1px",
           background: "hsl(var(--accent) / 0.55)",
-          boxShadow: "0 0 14px hsl(var(--accent) / 0.25)",
+          boxShadow: "0 0 10px hsl(var(--accent) / 0.2)",
+          willChange: "transform",
         }}
       />
 
       <main>
-        {/* ══════════════════════════════════════
-            SCENE 1 — HERO
-            "This is who I am"
-        ══════════════════════════════════════ */}
+        {/* ─── SCENE 1: HERO ─── */}
         <section id="top" className="relative min-h-screen flex flex-col overflow-hidden">
-
-          {/* Warm ambient studio light — top right glow */}
+          {/* Warm ambient glow — static, no animation */}
           <div
             aria-hidden
             className="absolute inset-0 pointer-events-none"
-            style={{
-              background: "radial-gradient(ellipse 60% 50% at 80% 8%, hsl(37 42% 58% / 0.065) 0%, transparent 70%)",
-            }}
+            style={{ background: "radial-gradient(ellipse 60% 50% at 80% 8%, hsl(37 42% 58% / 0.06) 0%, transparent 70%)" }}
           />
 
-          <motion.div style={{ opacity: heroOpacity, scale: heroScale, y: heroY }} className="flex flex-col flex-1 relative z-10">
+          {/* Hero fades out as you scroll — opacity only, no scale/y */}
+          <motion.div style={{ opacity: heroOpacity, willChange: "opacity" }} className="flex flex-col flex-1 relative z-10">
             <div className="flex flex-col lg:grid lg:grid-cols-[1fr_38vw] flex-1">
 
-              {/* LEFT — Typography */}
+              {/* LEFT */}
               <div className="flex flex-col px-6 md:px-12 lg:px-20 pt-28 pb-12 lg:py-0 lg:justify-center">
-
-                {/* Name — Libre Bodoni italic, cinematic scale */}
                 <div className="lg:mt-0 mt-8">
                   <motion.h1
                     className="font-display font-bold italic normal-case leading-[0.83] text-foreground/95 select-none"
                     style={{ fontSize: "clamp(5rem, 17vw, 17rem)" }}
-                    initial={{ opacity: 0, y: 44 }}
+                    initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1.15, delay: 0.12, ease: EASE }}
+                    transition={{ duration: 0.5, delay: 0.1, ease: E }}
                   >
                     Saji
                   </motion.h1>
                   <motion.h1
                     className="font-display font-bold italic normal-case leading-[0.83] text-foreground/95 select-none"
                     style={{ fontSize: "clamp(5rem, 17vw, 17rem)" }}
-                    initial={{ opacity: 0, y: 44 }}
+                    initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1.15, delay: 0.26, ease: EASE }}
+                    transition={{ duration: 0.5, delay: 0.2, ease: E }}
                   >
                     Ali.
                   </motion.h1>
                 </div>
 
-                {/* Title + location */}
                 <motion.div
                   className="mt-10 max-w-xs"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 0.72, duration: 1.1 }}
+                  transition={{ delay: 0.38, duration: 0.4 }}
                 >
                   <p className="text-sm md:text-base font-sans font-light text-muted-foreground leading-snug tracking-wide">
                     {portfolioData.header.title}
@@ -318,52 +276,46 @@ export default function Portfolio() {
                   </p>
                 </motion.div>
 
-                {/* Awards */}
                 <motion.p
                   className="mt-6 text-[10px] uppercase tracking-[0.38em] text-muted-foreground/45 font-sans"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 0.88, duration: 1 }}
+                  transition={{ delay: 0.45, duration: 0.4 }}
                 >
                   {portfolioData.header.awards}
                 </motion.p>
 
-                {/* CTAs */}
                 <motion.div
                   className="mt-12 flex flex-wrap gap-4"
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.05, duration: 0.9, ease: EASE }}
+                  transition={{ delay: 0.5, duration: 0.4, ease: E }}
                 >
                   <a
                     href="#intro"
-                    className="group flex items-center gap-2.5 text-[11px] uppercase tracking-[0.28em] font-sans font-medium border border-foreground/22 px-7 py-3.5 hover:bg-foreground hover:text-background transition-all duration-350"
+                    className="group flex items-center gap-2.5 text-[11px] uppercase tracking-[0.28em] font-sans font-medium border border-foreground/22 px-7 py-3.5 hover:bg-foreground hover:text-background transition-colors duration-200"
                   >
                     View Work
-                    <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-150" />
                   </a>
-                  <a
-                    href="#contact"
-                    className="flex items-center gap-2.5 text-[11px] uppercase tracking-[0.28em] font-sans font-medium text-muted-foreground hover:text-foreground transition-colors duration-300 px-4 py-3.5"
-                  >
+                  <a href="#contact" className="flex items-center gap-2.5 text-[11px] uppercase tracking-[0.28em] font-sans font-medium text-muted-foreground hover:text-foreground transition-colors duration-200 px-4 py-3.5">
                     Contact
                   </a>
                   <a
                     href="/Ali_Saji_Broadcast_Audio_Engineer.pdf"
                     download="Saji_Ali_CV.pdf"
-                    className="flex items-center gap-2.5 text-[11px] uppercase tracking-[0.28em] font-sans font-medium text-muted-foreground hover:text-foreground transition-colors duration-300 px-4 py-3.5"
+                    className="flex items-center gap-2.5 text-[11px] uppercase tracking-[0.28em] font-sans font-medium text-muted-foreground hover:text-foreground transition-colors duration-200 px-4 py-3.5"
                   >
                     <Download className="w-3.5 h-3.5" />
                     Resume
                   </a>
                 </motion.div>
 
-                {/* Bottom bar */}
                 <motion.div
                   className="mt-auto pt-16 lg:pt-24 flex items-center gap-6"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 1.4, duration: 1.1 }}
+                  transition={{ delay: 0.65, duration: 0.4 }}
                 >
                   <span className="text-[10px] uppercase tracking-[0.45em] text-muted-foreground/40 font-sans">
                     Portfolio {portfolioData.header.year}
@@ -372,39 +324,37 @@ export default function Portfolio() {
                   <motion.span
                     className="text-[10px] uppercase tracking-[0.45em] text-muted-foreground/40 font-sans"
                     animate={{ opacity: [0.3, 1, 0.3] }}
-                    transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
                   >
                     Scroll
                   </motion.span>
                 </motion.div>
               </div>
 
-              {/* RIGHT — Portrait, desktop full-height */}
+              {/* RIGHT — Portrait, desktop */}
               <motion.div
                 className="hidden lg:block relative"
-                initial={{ opacity: 0, x: 28 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 1.3, delay: 0.18, ease: EASE }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.15, ease: E }}
               >
                 <img
-                  src={portraitImg}
-                  alt="Saji Ali"
+                  src={portraitImg} alt="Saji Ali"
                   className="absolute inset-0 w-full h-full object-cover object-top"
                   style={{ filter: "grayscale(100%) sepia(18%) brightness(0.75) contrast(1.12)" }}
                 />
-                {/* Left-edge blend into background */}
                 <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-background to-transparent pointer-events-none" />
                 <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-background to-transparent pointer-events-none" />
               </motion.div>
             </div>
           </motion.div>
 
-          {/* Mobile portrait — below name block */}
+          {/* Mobile portrait */}
           <motion.div
             className="lg:hidden relative h-[55vw] shrink-0"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1.1, delay: 0.5 }}
+            transition={{ duration: 0.45, delay: 0.3 }}
           >
             <img
               src={portraitImg} alt="Saji Ali"
@@ -415,18 +365,13 @@ export default function Portfolio() {
           </motion.div>
         </section>
 
-        {/* ══════════════════════════════════════
-            SCENE 2 — THE CRAFT
-            Introduction & disciplines
-        ══════════════════════════════════════ */}
+        {/* ─── SCENE 2: THE CRAFT ─── */}
         <section
           id="intro"
-          className="relative min-h-[90vh] flex flex-col justify-center px-6 md:px-12 lg:px-20 py-32 max-w-[1700px] mx-auto border-b border-white/[0.05]"
+          className="relative min-h-[85vh] flex flex-col justify-center px-6 md:px-12 lg:px-20 py-32 max-w-[1700px] mx-auto border-b border-white/[0.05]"
         >
           <ChapterLabel num="01" title="The Craft" className="mb-16" />
-
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 items-center">
-            {/* Pull-quote */}
             <div className="lg:col-span-7">
               <FadeUp>
                 <p
@@ -437,17 +382,13 @@ export default function Portfolio() {
                 </p>
               </FadeUp>
             </div>
-
-            {/* Disciplines list */}
             <div className="lg:col-span-5">
-              <FadeUp delay={0.14}>
+              <FadeUp delay={0.1}>
                 <div className="divide-y divide-white/[0.07]">
                   {portfolioData.header.tags.map((tag, i) => (
                     <div key={i} className="flex items-center gap-5 py-5">
                       <span className="text-accent text-xs font-sans tabular-nums shrink-0">0{i + 1}</span>
-                      <span className="text-lg md:text-xl font-display font-bold normal-case tracking-wide text-foreground/78">
-                        {tag}
-                      </span>
+                      <span className="text-lg md:text-xl font-display font-bold normal-case tracking-wide text-foreground/78">{tag}</span>
                     </div>
                   ))}
                 </div>
@@ -456,33 +397,26 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* 3D divider */}
         <CinematicDivider src={studioImg} alt="Broadcast studio" label="The Studio" objectPosition="center 40%" />
 
-        {/* ══════════════════════════════════════
-            SCENE 3 — ABOUT
-            Hello, I'm Saji
-        ══════════════════════════════════════ */}
+        {/* ─── SCENE 3: ABOUT ─── */}
         <section
           id="about"
           className="relative min-h-screen flex items-center px-6 md:px-12 lg:px-20 py-28 md:py-36 max-w-[1700px] mx-auto border-b border-white/[0.05]"
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-28 w-full items-center">
-
-            {/* Portrait */}
             <FadeUp className="order-2 lg:order-1 relative">
               <img
-                src={portraitImg} alt="Saji Ali"
+                src={portraitImg} alt="Saji Ali" loading="lazy"
                 className="w-full max-w-sm lg:max-w-none mx-auto h-[58vh] lg:h-[72vh] object-cover object-top"
                 style={{ filter: "grayscale(55%) sepia(20%) brightness(0.8) contrast(1.08)" }}
               />
               <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background to-transparent" />
             </FadeUp>
 
-            {/* Text */}
             <div className="order-1 lg:order-2 flex flex-col justify-center">
               <ChapterLabel num="02" title="About" className="mb-10" />
-              <FadeUp delay={0.08}>
+              <FadeUp delay={0.07}>
                 <h2
                   className="font-display font-bold italic normal-case leading-[0.9] mb-10 text-foreground/95"
                   style={{ fontSize: "clamp(3rem, 7vw, 8rem)" }}
@@ -490,12 +424,12 @@ export default function Portfolio() {
                   {portfolioData.about.headline}
                 </h2>
               </FadeUp>
-              <FadeUp delay={0.2}>
+              <FadeUp delay={0.15}>
                 <p className="text-lg md:text-xl text-muted-foreground font-sans font-light leading-relaxed">
                   {portfolioData.about.text}
                 </p>
               </FadeUp>
-              <FadeUp delay={0.32}>
+              <FadeUp delay={0.22}>
                 <div className="mt-10 flex flex-wrap gap-3">
                   {portfolioData.header.tags.map((t, i) => (
                     <span key={i} className="text-[10px] uppercase tracking-[0.3em] border border-white/12 text-muted-foreground px-4 py-2 font-sans">
@@ -508,31 +442,24 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* ══════════════════════════════════════
-            SCENES 4–7 — TV / RADIO / FILM / MUSIC
-            Each chapter of Saji's experience
-        ══════════════════════════════════════ */}
+        {/* ─── SCENES 4–7: TV / RADIO / FILM / MUSIC ─── */}
         {portfolioData.experience.map((exp, i) => (
           <div key={exp.id}>
             {i > 0 && (
               <CinematicDivider
-                src={EXP_DIVIDER_SRCS[i - 1]}
+                src={EXP_DIV_IMGS[i - 1]}
                 alt={portfolioData.experience[i - 1].title}
                 label={portfolioData.experience[i - 1].title}
-                objectPosition={EXP_OBJECT_POS[i - 1]}
+                objectPosition={EXP_OBJ_POS[i - 1]}
               />
             )}
-            <ExperienceScene exp={exp} image={EXP_IMAGES[i]} objectPos={EXP_OBJECT_POS[i]} index={i} />
+            <ExperienceScene exp={exp} image={EXP_IMAGES[i]} objectPos={EXP_OBJ_POS[i]} index={i} />
           </div>
         ))}
 
-        {/* 3D divider into Work */}
         <CinematicDivider src={musicImg} alt="Music studio" label="Selected Work" objectPosition="center 15%" />
 
-        {/* ══════════════════════════════════════
-            SCENE 8 — SELECTED WORK
-            Proof of the craft
-        ══════════════════════════════════════ */}
+        {/* ─── SCENE 8: SELECTED WORK ─── */}
         <section
           id="work"
           className="px-6 md:px-12 lg:px-20 py-28 md:py-40 max-w-[1700px] mx-auto border-b border-white/[0.05]"
@@ -547,7 +474,7 @@ export default function Portfolio() {
             </h2>
           </FadeUp>
 
-          {/* Documentary projects */}
+          {/* Documentary films */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-14 lg:gap-16 mb-28">
             {portfolioData.work
               .filter((p) => !("soundcloudSrc" in p && p.soundcloudSrc))
@@ -570,33 +497,29 @@ export default function Portfolio() {
                         {project.title}
                       </h3>
                     </FadeUp>
-                    <FadeUp delay={0.1}>
+                    <FadeUp delay={0.08}>
                       <p className="text-base text-muted-foreground font-sans font-light leading-relaxed mb-10 max-w-md">
                         {project.description}
                       </p>
                     </FadeUp>
-                    <FadeUp delay={0.16}>
+                    <FadeUp delay={0.14}>
                       <p className="text-[10px] uppercase tracking-[0.45em] text-muted-foreground/45 mb-5 font-sans">Listen</p>
                       <iframe
-                        width="100%" height="280"
+                        width="100%" height="280" loading="lazy"
                         scrolling="no" frameBorder="no" allow="autoplay"
                         src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/soundcloud%3Aplaylists%3A1456964344%3Fsecret_token%3Ds-yMnZrSbSM1b&color=%23000000&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
                         className="w-full"
                       />
                     </FadeUp>
                   </div>
-                  <FadeUp delay={0.18} className="overflow-hidden">
-                    <PlaceholderImage
-                      label={project.title.toUpperCase()}
-                      aspectRatio="portrait"
-                      className="w-full h-[45vh]"
-                    />
+                  <FadeUp delay={0.1} className="overflow-hidden">
+                    <PlaceholderImage label={project.title.toUpperCase()} aspectRatio="portrait" className="w-full h-[45vh]" />
                   </FadeUp>
                 </div>
               </div>
             ))}
 
-          {/* Music Production — artists */}
+          {/* Music Production */}
           <div className="pt-16 border-t border-white/[0.07]">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
               <FadeUp>
@@ -607,13 +530,14 @@ export default function Portfolio() {
                   {portfolioData.musicProduction.headline}
                 </h3>
               </FadeUp>
-              <FadeUp delay={0.1}>
+              <FadeUp delay={0.08}>
                 <p className="text-lg text-muted-foreground font-sans font-light leading-relaxed lg:pt-2">
                   {portfolioData.musicProduction.description}
                 </p>
               </FadeUp>
             </div>
 
+            {/* Artist grid — plain CSS hover, no Card3D mousemove listeners */}
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
               {portfolioData.musicProduction.artists.map((artist, i) => {
                 const artistImg =
@@ -628,37 +552,33 @@ export default function Portfolio() {
                   <motion.div
                     key={i}
                     className="group relative aspect-square overflow-hidden"
-                    initial={{ opacity: 0, y: 16 }}
+                    initial={{ opacity: 0, y: 14 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-4%" }}
-                    transition={{ duration: 0.85, delay: i * 0.07, ease: EASE }}
+                    transition={{ duration: 0.4, delay: i * 0.05, ease: E }}
                   >
-                    <Card3D strength={7} gloss>
-                      <div className="relative w-full h-full overflow-hidden aspect-square">
-                        <img
-                          src={artistImg} alt={artist.name}
-                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.06]"
-                          style={{ filter: "grayscale(35%) sepia(12%) brightness(0.82)" }}
-                        />
-                        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/22 transition-colors duration-500" />
-                        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent z-10" />
-                        <div className="absolute inset-0 flex flex-col items-center justify-center z-20 p-4 transition-all duration-500 md:group-hover:-translate-y-5">
-                          <span className="text-[9px] uppercase tracking-[0.45em] text-white/45 mb-2 font-sans">Artist</span>
-                          <span className="text-2xl md:text-3xl font-display font-bold italic normal-case text-white/82 group-hover:text-white transition-all duration-500 text-center leading-tight">
-                            {artist.name}
-                          </span>
-                        </div>
-                        <div className="absolute inset-x-0 bottom-0 z-20 p-3 md:p-4">
-                          <div className="translate-y-0 opacity-100 md:translate-y-4 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 transition-all duration-500">
-                            <p className="text-[9px] uppercase tracking-[0.35em] text-white/38 mb-1.5 font-sans">Role</p>
-                            <p className="text-[11px] md:text-xs text-white/78 leading-relaxed font-sans">{artist.work}</p>
-                          </div>
-                        </div>
-                        <span className="absolute top-3 right-3.5 text-[10px] font-display italic text-white/22 group-hover:text-white/44 transition-colors z-30">
-                          0{i + 1}
-                        </span>
+                    <img
+                      src={artistImg} alt={artist.name} loading="lazy"
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.05]"
+                      style={{ filter: "grayscale(30%) sepia(10%) brightness(0.82)", willChange: "transform" }}
+                    />
+                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/22 transition-colors duration-300" />
+                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent z-10" />
+                    <div className="absolute inset-0 flex flex-col items-center justify-center z-20 p-4 transition-transform duration-300 md:group-hover:-translate-y-5">
+                      <span className="text-[9px] uppercase tracking-[0.45em] text-white/45 mb-2 font-sans">Artist</span>
+                      <span className="text-2xl md:text-3xl font-display font-bold italic normal-case text-white/85 group-hover:text-white transition-colors duration-300 text-center leading-tight">
+                        {artist.name}
+                      </span>
+                    </div>
+                    <div className="absolute inset-x-0 bottom-0 z-20 p-3 md:p-4">
+                      <div className="translate-y-0 opacity-100 md:translate-y-3 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 transition-all duration-300">
+                        <p className="text-[9px] uppercase tracking-[0.35em] text-white/38 mb-1 font-sans">Role</p>
+                        <p className="text-[11px] md:text-xs text-white/78 leading-relaxed font-sans">{artist.work}</p>
                       </div>
-                    </Card3D>
+                    </div>
+                    <span className="absolute top-3 right-3.5 text-[10px] font-display italic text-white/22 group-hover:text-white/44 transition-colors duration-300 z-30">
+                      0{i + 1}
+                    </span>
                   </motion.div>
                 )
               })}
@@ -666,10 +586,7 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* ══════════════════════════════════════
-            SCENE 9 — SKILLS
-            The tools of the trade
-        ══════════════════════════════════════ */}
+        {/* ─── SCENE 9: SKILLS ─── */}
         <section
           id="skills"
           className="min-h-[80vh] flex flex-col justify-center px-6 md:px-12 lg:px-20 py-28 md:py-40 max-w-[1700px] mx-auto border-b border-white/[0.05]"
@@ -694,16 +611,14 @@ export default function Portfolio() {
                 viewport={{ once: true, margin: "-5%" }}
                 variants={{
                   hidden: {},
-                  visible: { transition: { staggerChildren: 0.055, delayChildren: i * 0.1 } },
+                  visible: { transition: { staggerChildren: 0.04, delayChildren: i * 0.08 } },
                 }}
               >
                 <motion.div
-                  variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } } }}
+                  variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: E } } }}
                   className="mb-8"
                 >
-                  <span className="text-accent text-[10px] uppercase tracking-[0.55em] font-sans block mb-2.5">
-                    {`0${i + 1}`}
-                  </span>
+                  <span className="text-accent text-[10px] uppercase tracking-[0.55em] font-sans block mb-2.5">{`0${i + 1}`}</span>
                   <h4 className="text-[11px] uppercase tracking-[0.35em] text-muted-foreground font-sans font-medium pb-5 border-b border-white/[0.08]">
                     {group.category}
                   </h4>
@@ -712,7 +627,7 @@ export default function Portfolio() {
                   {group.items.split(", ").map((item, j) => (
                     <motion.li
                       key={j}
-                      variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.55, ease: EASE } } }}
+                      variants={{ hidden: { opacity: 0, x: -8 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3, ease: E } } }}
                       className="text-xl md:text-2xl font-display font-normal normal-case italic text-foreground/70 hover:text-foreground transition-colors duration-200 leading-snug"
                     >
                       {item}
@@ -724,15 +639,12 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* ══════════════════════════════════════
-            SCENE 10 — RECOGNITION
-        ══════════════════════════════════════ */}
+        {/* ─── SCENE 10: RECOGNITION ─── */}
         <section
           id="recognition"
-          className="min-h-[70vh] flex flex-col justify-center px-6 md:px-12 lg:px-20 py-28 md:py-36 max-w-[1700px] mx-auto border-b border-white/[0.05]"
+          className="min-h-[65vh] flex flex-col justify-center px-6 md:px-12 lg:px-20 py-28 md:py-36 max-w-[1700px] mx-auto border-b border-white/[0.05]"
         >
           <ChapterLabel num="07" title="Recognition" className="mb-14" />
-
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-28 items-start">
             <FadeUp>
               <h2
@@ -742,13 +654,12 @@ export default function Portfolio() {
                 Selected highlights.
               </h2>
             </FadeUp>
-
             <div>
               {portfolioData.recognition.items.map((item, i) => (
-                <FadeUp key={i} delay={0.08 + i * 0.09}>
+                <FadeUp key={i} delay={0.06 + i * 0.07}>
                   <div className="py-7 border-b border-white/[0.07] flex items-center gap-6 group">
                     <span className="text-accent text-xs font-sans tabular-nums shrink-0">0{i + 1}</span>
-                    <p className="text-2xl md:text-3xl font-display font-bold normal-case text-foreground/48 group-hover:text-foreground transition-all duration-500 group-hover:translate-x-3 transform leading-tight">
+                    <p className="text-2xl md:text-3xl font-display font-bold normal-case text-foreground/48 group-hover:text-foreground transition-all duration-300 group-hover:translate-x-2 transform leading-tight">
                       {item}
                     </p>
                   </div>
@@ -759,37 +670,53 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* ══════════════════════════════════════
-            SCENE 11 — CONTACT
-            Let's make something remarkable
-        ══════════════════════════════════════ */}
+        {/* ─── SCENE 11: CONTACT ─── */}
         <section
           id="contact"
           className="min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-20 py-28 md:py-40 max-w-[1700px] mx-auto"
         >
           <ChapterLabel num="08" title="Contact" className="mb-12" />
+
           <h2
             className="font-display font-bold italic normal-case leading-[0.82] text-foreground/90 mb-16 md:mb-24"
             style={{ fontSize: "clamp(2.8rem, 10vw, 12rem)" }}
           >
             <SplitWords text="Let's make something." />
           </h2>
+
           <motion.div
             className="w-full h-px bg-white/[0.08] mb-14 origin-left"
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 1.4, ease: EASE, delay: 0.25 }}
+            transition={{ duration: 0.5, ease: E }}
+            style={{ willChange: "transform" }}
           />
-          <FadeUp delay={0.1} className="mb-20">
-            <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground font-sans font-light leading-relaxed text-balance">
-              {portfolioData.contact.text}
-            </p>
-          </FadeUp>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-20 items-start">
+            <FadeUp delay={0.08}>
+              <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground font-sans font-light leading-relaxed text-balance">
+                {portfolioData.contact.text}
+              </p>
+            </FadeUp>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+              {portfolioData.contact.links.map((link, i) => (
+                <FadeUp key={i} delay={0.1 + i * 0.06}>
+                  <a href={link.href} className="group block">
+                    <span className="text-[10px] uppercase tracking-[0.5em] text-muted-foreground/48 block mb-3 font-sans">{link.label}</span>
+                    <span className="text-base md:text-lg font-display font-bold normal-case italic border-b border-transparent group-hover:border-accent/45 text-foreground/78 group-hover:text-foreground transition-all duration-200 pb-0.5">
+                      {link.value}
+                    </span>
+                  </a>
+                </FadeUp>
+              ))}
+            </div>
+          </div>
+
           <ContactForm />
 
           <FadeUp
-            delay={0.3}
+            delay={0.2}
             className="mt-24 pt-10 border-t border-white/[0.06] flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-[0.4em] text-muted-foreground/35 font-sans"
           >
             <span>© {portfolioData.header.year} Saji Ali</span>

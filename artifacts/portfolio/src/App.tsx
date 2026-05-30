@@ -5,7 +5,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Portfolio from "@/pages/Portfolio";
 import AgentChatWidget from "@/components/AgentChatWidget";
-import { MagneticCursor } from "@/components/MagneticCursor";
 
 const queryClient = new QueryClient();
 
@@ -26,7 +25,6 @@ function App() {
           <Router />
         </WouterRouter>
         <Toaster />
-        <MagneticCursor />
         <AgentChatWidget />
       </TooltipProvider>
     </QueryClientProvider>
