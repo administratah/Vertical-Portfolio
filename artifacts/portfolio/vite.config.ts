@@ -42,6 +42,7 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    modulePreload: { polyfill: false }, // inline polyfill script would break CSP
   },
   server: {
     port,
