@@ -1,7 +1,7 @@
 export const portfolioData = {
   header: {
     name: "SAJI ALI.",
-    title: "Senior Broadcast Engineer & Audio Specialist",
+    title: "Sound Architect",
     tagline: "10+ Years of Technical Excellence in Live TV, Radio, and Post-Production.",
     awards: "Sheikh Hamdan Award Winner  |  SMPTE & AES Member",
     credibility: [
@@ -53,7 +53,7 @@ export const portfolioData = {
     {
       id: "exp-4",
       title: "MUSIC",
-      description: "Music-related production, sound shaping, editing, and creative audio work developed through both professional and independent projects."
+      description: "Production, recording, mixing, and sound shaping across professional and independent music projects — from the first creative session to final delivery."
     },
     
   ],

@@ -20,15 +20,10 @@ import safariImg from "@/assets/film/safari.jpg"
 import sirbunirImg from "@/assets/film/sirbunir.jpg"
 import falajImg from "@/assets/film/falaj.jpg"
 
-/* All scroll-driven 3D (useScroll + target refs) is replaced with whileInView.
-   This eliminates ~12 concurrent scroll listeners — the primary perf bottleneck.
-   Durations capped at 0.45s. No rotateX/rotateY/perspective/scale on scroll. */
+const EXP_IMAGES  = [tvImg, radioImg, filmImg, musicImg]
+const EXP_OBJ_POS = ["center", "center", "center 30%", "center 3%"]
+const EXP_DIV_IMGS = [tvImg, radioImg, filmImg]
 
-const EXP_IMAGES    = [tvImg, radioImg, filmImg, musicImg]
-const EXP_OBJ_POS   = ["center", "center", "center 30%", "center 3%"]
-const EXP_DIV_IMGS  = [tvImg, radioImg, filmImg]
-
-/* ─── Shared ease ─── */
 const E = "easeOut" as const
 
 /* ─── Chapter label ─── */
@@ -63,7 +58,7 @@ function FadeUp({ children, delay = 0, className = "" }: { children: React.React
   )
 }
 
-/* ─── Word-split for contact heading ─── */
+/* ─── Word-split reveal ─── */
 function SplitWords({ text, className = "", baseDelay = 0 }: { text: string; className?: string; baseDelay?: number }) {
   return (
     <span className={className} aria-label={text}>
@@ -84,7 +79,7 @@ function SplitWords({ text, className = "", baseDelay = 0 }: { text: string; cla
   )
 }
 
-/* ─── Image divider between scenes — whileInView fade only (no scroll listener) ─── */
+/* ─── Cinematic image divider ─── */
 function CinematicDivider({ src, alt, label, objectPosition = "center" }: {
   src: string; alt: string; label?: string; objectPosition?: string
 }) {
@@ -113,10 +108,10 @@ function CinematicDivider({ src, alt, label, objectPosition = "center" }: {
   )
 }
 
-/* ─── Experience scene — whileInView only, no per-section scroll listener ─── */
-function ExperienceScene({ exp, image, objectPos, index }: {
+/* ─── Experience chapter — accepts optional inline work as children ─── */
+function ExperienceScene({ exp, image, objectPos, index, children }: {
   exp: (typeof portfolioData.experience)[0]
-  image: string; objectPos: string; index: number
+  image: string; objectPos: string; index: number; children?: React.ReactNode
 }) {
   const isEven = index % 2 !== 0
   const label  = exp.title.charAt(0).toUpperCase() + exp.title.slice(1).toLowerCase()
@@ -124,9 +119,9 @@ function ExperienceScene({ exp, image, objectPos, index }: {
   return (
     <section
       id={index === 0 ? "experience" : exp.id}
-      className="relative min-h-screen flex items-center px-6 md:px-12 lg:px-20 py-28 md:py-36 max-w-[1700px] mx-auto border-b border-white/[0.05]"
+      className="relative px-6 md:px-12 lg:px-20 py-28 md:py-36 max-w-[1700px] mx-auto border-b border-white/[0.05]"
     >
-      <span className="absolute right-4 lg:right-10 top-1/2 -translate-y-1/2 text-[28vw] lg:text-[20vw] font-display font-bold text-white/[0.02] pointer-events-none select-none leading-none italic">
+      <span className="absolute right-4 lg:right-10 top-24 text-[28vw] lg:text-[20vw] font-display font-bold text-white/[0.02] pointer-events-none select-none leading-none italic">
         0{index + 1}
       </span>
 
@@ -148,7 +143,6 @@ function ExperienceScene({ exp, image, objectPos, index }: {
           </FadeUp>
         </div>
 
-        {/* Image — simple whileInView fade, no 3D transform */}
         <motion.div
           className={`overflow-hidden ${isEven ? "lg:order-1" : "lg:order-2"}`}
           initial={{ opacity: 0, y: 20 }}
@@ -163,11 +157,13 @@ function ExperienceScene({ exp, image, objectPos, index }: {
           />
         </motion.div>
       </div>
+
+      {children}
     </section>
   )
 }
 
-/* ─── Work card — whileInView only, no per-card scroll listener ─── */
+/* ─── Work card (film docs) ─── */
 function WorkCard({ project, image, index }: {
   project: (typeof portfolioData.work)[0]; image: string; index: number
 }) {
@@ -205,15 +201,16 @@ function WorkCard({ project, image, index }: {
    PORTFOLIO
 ═══════════════════════════════════════ */
 export default function Portfolio() {
-  /* Single global scroll listener — shared by progress bar + hero fade */
   const { scrollYProgress } = useScroll()
   const heroOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0])
+
+  const filmProjects = portfolioData.work.filter((p) => !("soundcloudSrc" in p && (p as any).soundcloudSrc))
+  const radioProject = portfolioData.work.find((p) => "soundcloudSrc" in p && (p as any).soundcloudSrc)
 
   return (
     <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
       <Navigation />
 
-      {/* Progress bar — shares the single global scroll listener */}
       <motion.div
         className="fixed top-0 left-0 right-0 z-[100] origin-left"
         style={{
@@ -228,14 +225,12 @@ export default function Portfolio() {
       <main>
         {/* ─── SCENE 1: HERO ─── */}
         <section id="top" className="relative min-h-screen flex flex-col overflow-hidden">
-          {/* Warm ambient glow — static, no animation */}
           <div
             aria-hidden
             className="absolute inset-0 pointer-events-none"
             style={{ background: "radial-gradient(ellipse 60% 50% at 80% 8%, hsl(37 42% 58% / 0.06) 0%, transparent 70%)" }}
           />
 
-          {/* Hero fades out as you scroll — opacity only, no scale/y */}
           <motion.div style={{ opacity: heroOpacity, willChange: "opacity" }} className="flex flex-col flex-1 relative z-10">
             <div className="flex flex-col lg:grid lg:grid-cols-[1fr_38vw] flex-1">
 
@@ -442,7 +437,7 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* ─── SCENES 4–7: TV / RADIO / FILM / MUSIC ─── */}
+        {/* ─── SCENES 4–7: TV / RADIO / FILM / MUSIC (work embedded per chapter) ─── */}
         {portfolioData.experience.map((exp, i) => (
           <div key={exp.id}>
             {i > 0 && (
@@ -453,145 +448,104 @@ export default function Portfolio() {
                 objectPosition={EXP_OBJ_POS[i - 1]}
               />
             )}
-            <ExperienceScene exp={exp} image={EXP_IMAGES[i]} objectPos={EXP_OBJ_POS[i]} index={i} />
+
+            <ExperienceScene exp={exp} image={EXP_IMAGES[i]} objectPos={EXP_OBJ_POS[i]} index={i}>
+
+              {/* ── RADIO: SoundCloud playlist ── */}
+              {i === 1 && radioProject && (
+                <div className="mt-20 pt-16 border-t border-white/[0.07]">
+                  <FadeUp>
+                    <p className="text-[10px] uppercase tracking-[0.45em] text-muted-foreground/45 mb-5 font-sans">Listen</p>
+                    <iframe
+                      width="100%" height="560" loading="lazy"
+                      scrolling="no" frameBorder="no" allow="autoplay"
+                      src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/soundcloud%3Aplaylists%3A1456964344%3Fsecret_token%3Ds-yMnZrSbSM1b&color=%23000000&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
+                      className="w-full"
+                    />
+                  </FadeUp>
+                </div>
+              )}
+
+              {/* ── FILM: documentary cards ── */}
+              {i === 2 && (
+                <div className="mt-20 pt-16 border-t border-white/[0.07]">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-14 lg:gap-16">
+                    {filmProjects.map((project, j) => {
+                      const img =
+                        project.title === "Sharjah Safari" ? safariImg :
+                        project.title === "Sir Bu Nu'ayr Island" ? sirbunirImg :
+                        falajImg
+                      return <WorkCard key={j} project={project} image={img} index={j} />
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* ── MUSIC: artist grid ── */}
+              {i === 3 && (
+                <div className="mt-20 pt-16 border-t border-white/[0.07]">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+                    {portfolioData.musicProduction.artists.map((artist, ai) => {
+                      const artistImg =
+                        artist.name === "O'D" ? odImg :
+                        artist.name === "roTation" ? rotationImg :
+                        artist.name === "Freek" ? freekImg :
+                        artist.name === "Flippter" ? flippterImg :
+                        artist.name === "Mvndila" ? mvndilaImg :
+                        toodopeImg
+
+                      const artistObjPos: Record<string, string> = {
+                        "roTation": "center 20%",
+                      }
+
+                      return (
+                        <motion.div
+                          key={ai}
+                          className="group relative aspect-square overflow-hidden"
+                          initial={{ opacity: 0, y: 14 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true, margin: "-4%" }}
+                          transition={{ duration: 0.4, delay: ai * 0.05, ease: E }}
+                        >
+                          <img
+                            src={artistImg} alt={artist.name} loading="lazy"
+                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.05]"
+                            style={{ objectPosition: artistObjPos[artist.name] ?? "center", filter: "grayscale(30%) sepia(10%) brightness(0.82)", willChange: "transform" }}
+                          />
+                          <div className="absolute inset-0 bg-black/40 group-hover:bg-black/22 transition-colors duration-300" />
+                          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent z-10" />
+                          <div className="absolute inset-0 flex flex-col items-center justify-center z-20 p-4 transition-transform duration-300 md:group-hover:-translate-y-5">
+                            <span className="text-[9px] uppercase tracking-[0.45em] text-white/45 mb-2 font-sans">Artist</span>
+                            <span className="text-2xl md:text-3xl font-display font-bold italic normal-case text-white/85 group-hover:text-white transition-colors duration-300 text-center leading-tight">
+                              {artist.name}
+                            </span>
+                          </div>
+                          <div className="absolute inset-x-0 bottom-0 z-20 p-3 md:p-4">
+                            <div className="translate-y-0 opacity-100 md:translate-y-3 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 transition-all duration-300">
+                              <p className="text-[9px] uppercase tracking-[0.35em] text-white/38 mb-1 font-sans">Role</p>
+                              <p className="text-[11px] md:text-xs text-white/78 leading-relaxed font-sans">{artist.work}</p>
+                            </div>
+                          </div>
+                          <span className="absolute top-3 right-3.5 text-[10px] font-display italic text-white/22 group-hover:text-white/44 transition-colors duration-300 z-30">
+                            0{ai + 1}
+                          </span>
+                        </motion.div>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+
+            </ExperienceScene>
           </div>
         ))}
 
-        <CinematicDivider src={musicImg} alt="Music studio" label="Selected Work" objectPosition="center 15%" />
-
-        {/* ─── SCENE 8: SELECTED WORK ─── */}
-        <section
-          id="work"
-          className="px-6 md:px-12 lg:px-20 py-28 md:py-40 max-w-[1700px] mx-auto border-b border-white/[0.05]"
-        >
-          <ChapterLabel num="05" title="Selected Work" className="mb-12" />
-          <FadeUp>
-            <h2
-              className="font-display font-bold italic normal-case text-foreground/90 leading-[0.88] mb-24 md:mb-32"
-              style={{ fontSize: "clamp(2.8rem, 8vw, 10rem)" }}
-            >
-              Proof of the craft.
-            </h2>
-          </FadeUp>
-
-          {/* Documentary films */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-14 lg:gap-16 mb-28">
-            {portfolioData.work
-              .filter((p) => !("soundcloudSrc" in p && p.soundcloudSrc))
-              .map((project, i) => {
-                const img = project.title === "Sharjah Safari" ? safariImg : project.title === "Sir Bu Nu'ayr Island" ? sirbunirImg : falajImg
-                return <WorkCard key={i} project={project} image={img} index={i} />
-              })}
-          </div>
-
-          {/* Radio project */}
-          {portfolioData.work
-            .filter((p) => "soundcloudSrc" in p && p.soundcloudSrc)
-            .map((project, i) => (
-              <div key={i} className="pt-16 border-t border-white/[0.07] mb-28">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-start">
-                  <div>
-                    <span className="text-[10px] uppercase tracking-[0.45em] text-accent font-sans block mb-5">{project.category}</span>
-                    <FadeUp>
-                      <h3 className="text-4xl md:text-5xl font-display font-bold normal-case italic mb-6 text-foreground/90 leading-tight">
-                        {project.title}
-                      </h3>
-                    </FadeUp>
-                    <FadeUp delay={0.08}>
-                      <p className="text-base text-muted-foreground font-sans font-light leading-relaxed mb-10 max-w-md">
-                        {project.description}
-                      </p>
-                    </FadeUp>
-                    <FadeUp delay={0.14}>
-                      <p className="text-[10px] uppercase tracking-[0.45em] text-muted-foreground/45 mb-5 font-sans">Listen</p>
-                      <iframe
-                        width="100%" height="280" loading="lazy"
-                        scrolling="no" frameBorder="no" allow="autoplay"
-                        src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/soundcloud%3Aplaylists%3A1456964344%3Fsecret_token%3Ds-yMnZrSbSM1b&color=%23000000&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
-                        className="w-full"
-                      />
-                    </FadeUp>
-                  </div>
-                  <FadeUp delay={0.1} className="overflow-hidden">
-                    <PlaceholderImage label={project.title.toUpperCase()} aspectRatio="portrait" className="w-full h-[45vh]" />
-                  </FadeUp>
-                </div>
-              </div>
-            ))}
-
-          {/* Music Production */}
-          <div className="pt-16 border-t border-white/[0.07]">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-              <FadeUp>
-                <h3
-                  className="font-display font-bold italic normal-case text-foreground/90 leading-[0.88]"
-                  style={{ fontSize: "clamp(2.4rem, 5.5vw, 6rem)" }}
-                >
-                  {portfolioData.musicProduction.headline}
-                </h3>
-              </FadeUp>
-              <FadeUp delay={0.08}>
-                <p className="text-lg text-muted-foreground font-sans font-light leading-relaxed lg:pt-2">
-                  {portfolioData.musicProduction.description}
-                </p>
-              </FadeUp>
-            </div>
-
-            {/* Artist grid — plain CSS hover, no Card3D mousemove listeners */}
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-              {portfolioData.musicProduction.artists.map((artist, i) => {
-                const artistImg =
-                  artist.name === "O'D" ? odImg :
-                  artist.name === "roTation" ? rotationImg :
-                  artist.name === "Freek" ? freekImg :
-                  artist.name === "Flippter" ? flippterImg :
-                  artist.name === "Mvndila" ? mvndilaImg :
-                  toodopeImg
-
-                return (
-                  <motion.div
-                    key={i}
-                    className="group relative aspect-square overflow-hidden"
-                    initial={{ opacity: 0, y: 14 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-4%" }}
-                    transition={{ duration: 0.4, delay: i * 0.05, ease: E }}
-                  >
-                    <img
-                      src={artistImg} alt={artist.name} loading="lazy"
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.05]"
-                      style={{ filter: "grayscale(30%) sepia(10%) brightness(0.82)", willChange: "transform" }}
-                    />
-                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/22 transition-colors duration-300" />
-                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent z-10" />
-                    <div className="absolute inset-0 flex flex-col items-center justify-center z-20 p-4 transition-transform duration-300 md:group-hover:-translate-y-5">
-                      <span className="text-[9px] uppercase tracking-[0.45em] text-white/45 mb-2 font-sans">Artist</span>
-                      <span className="text-2xl md:text-3xl font-display font-bold italic normal-case text-white/85 group-hover:text-white transition-colors duration-300 text-center leading-tight">
-                        {artist.name}
-                      </span>
-                    </div>
-                    <div className="absolute inset-x-0 bottom-0 z-20 p-3 md:p-4">
-                      <div className="translate-y-0 opacity-100 md:translate-y-3 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 transition-all duration-300">
-                        <p className="text-[9px] uppercase tracking-[0.35em] text-white/38 mb-1 font-sans">Role</p>
-                        <p className="text-[11px] md:text-xs text-white/78 leading-relaxed font-sans">{artist.work}</p>
-                      </div>
-                    </div>
-                    <span className="absolute top-3 right-3.5 text-[10px] font-display italic text-white/22 group-hover:text-white/44 transition-colors duration-300 z-30">
-                      0{i + 1}
-                    </span>
-                  </motion.div>
-                )
-              })}
-            </div>
-          </div>
-        </section>
-
-        {/* ─── SCENE 9: SKILLS ─── */}
+        {/* ─── SCENE 5: SKILLS ─── */}
         <section
           id="skills"
           className="min-h-[80vh] flex flex-col justify-center px-6 md:px-12 lg:px-20 py-28 md:py-40 max-w-[1700px] mx-auto border-b border-white/[0.05]"
         >
-          <ChapterLabel num="06" title="Skills & Tools" className="mb-12" />
+          <ChapterLabel num="05" title="Skills & Tools" className="mb-12" />
           <FadeUp>
             <h2
               className="font-display font-bold italic normal-case text-foreground/90 leading-[0.88] mb-20 md:mb-28"
@@ -639,12 +593,12 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* ─── SCENE 10: RECOGNITION ─── */}
+        {/* ─── SCENE 6: RECOGNITION ─── */}
         <section
           id="recognition"
           className="min-h-[65vh] flex flex-col justify-center px-6 md:px-12 lg:px-20 py-28 md:py-36 max-w-[1700px] mx-auto border-b border-white/[0.05]"
         >
-          <ChapterLabel num="07" title="Recognition" className="mb-14" />
+          <ChapterLabel num="06" title="Recognition" className="mb-14" />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-28 items-start">
             <FadeUp>
               <h2
@@ -670,38 +624,42 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* ─── SCENE 11: CONTACT ─── */}
-<section
-  id="contact"
-  className="min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-20 py-28 md:py-40 max-w-[1700px] mx-auto"
->
-  <ChapterLabel num="08" title="Contact" className="mb-12" />
-  <h2
-    className="font-display font-bold italic normal-case leading-[0.82] text-foreground/90 mb-16 md:mb-24"
-    style={{ fontSize: "clamp(2.8rem, 10vw, 12rem)" }}
-  >
-    Let's make something.
-  </h2>
-  <motion.div
-    className="w-full h-px bg-white/[0.08] mb-14 origin-left"
-    initial={{ scaleX: 0 }}
-    whileInView={{ scaleX: 1 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.5, ease: E }}
-    style={{ willChange: "transform" }}
-  />
-  <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground font-sans font-light leading-relaxed text-balance mb-16">
-    {portfolioData.contact.text}
-  </p>
-  <ContactForm />
-  <FadeUp
-    delay={0.2}
-    className="mt-24 pt-10 border-t border-white/[0.06] flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-[0.4em] text-muted-foreground/35 font-sans"
-  >
-    <span>© {portfolioData.header.year} Saji Ali</span>
-    <span>Senior Broadcast Engineer &amp; Audio Specialist</span>
-  </FadeUp>
-</section>
+        {/* ─── SCENE 7: CONTACT ─── */}
+        <section
+          id="contact"
+          className="px-6 md:px-12 lg:px-20 py-24 md:py-32 max-w-[1700px] mx-auto"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+            <div className="min-w-0">
+              <ChapterLabel num="07" title="Contact" className="mb-8" />
+              <FadeUp>
+                <h2
+                  className="font-display font-bold italic normal-case leading-[0.88] text-foreground/90 mb-6"
+                  style={{ fontSize: "clamp(2.5rem, 5vw, 6rem)" }}
+                >
+                  Let's make something.
+                </h2>
+              </FadeUp>
+              <FadeUp delay={0.1}>
+                <p className="text-base md:text-lg text-muted-foreground font-sans font-light leading-relaxed max-w-sm">
+                  {portfolioData.contact.text}
+                </p>
+              </FadeUp>
+            </div>
+
+            <FadeUp delay={0.15}>
+              <ContactForm />
+            </FadeUp>
+          </div>
+
+          <FadeUp
+            delay={0.2}
+            className="mt-20 pt-10 border-t border-white/[0.06] flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-[0.4em] text-muted-foreground/35 font-sans"
+          >
+            <span>© {portfolioData.header.year} Saji Ali</span>
+            <span>Sound Architect</span>
+          </FadeUp>
+        </section>
       </main>
     </div>
   )

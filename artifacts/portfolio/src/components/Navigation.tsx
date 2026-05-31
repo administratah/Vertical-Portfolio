@@ -42,7 +42,6 @@ export function Navigation() {
           {[
             { href: "#intro", label: "The Craft" },
             { href: "#experience", label: "Experience" },
-            { href: "#work", label: "Work" },
             { href: "#skills", label: "Skills" },
           ].map((link) => (
             <a
