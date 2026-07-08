@@ -1,0 +1,6 @@
+# SPA fallback for Cloudflare Pages.
+# Static assets (JS/CSS/PDF/images) are matched and served first; any other
+# path is rewritten to index.html with a 200 so the client-side router
+# (wouter) can handle it. This is what makes deep links like /portfolio work
+# on direct visit and refresh.
+/*    /index.html   200
