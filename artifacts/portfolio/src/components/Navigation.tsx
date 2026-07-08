@@ -1,5 +1,6 @@
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { useState } from "react";
+import { Link } from "wouter";
 
 export function Navigation() {
   const { scrollY } = useScroll();
@@ -52,6 +53,12 @@ export function Navigation() {
               {link.label}
             </a>
           ))}
+          <Link
+            href="/portfolio"
+            className="text-[11px] uppercase tracking-[0.25em] text-muted-foreground hover:text-foreground transition-colors duration-300 font-sans font-medium"
+          >
+            Portfolio
+          </Link>
           <a
             href="#contact"
             className="text-[11px] uppercase tracking-[0.25em] text-accent hover:text-foreground transition-colors duration-300 font-sans font-medium border-b border-accent/40 pb-px"

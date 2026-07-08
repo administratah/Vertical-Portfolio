@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Portfolio from "@/pages/Portfolio";
+import PortfolioDoc from "@/pages/PortfolioDoc";
 import AgentChatWidget from "@/components/AgentChatWidget";
 
 const queryClient = new QueryClient();
@@ -12,6 +13,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Portfolio} />
+      <Route path="/portfolio" component={PortfolioDoc} />
       <Route component={NotFound} />
     </Switch>
   );

@@ -7,6 +7,23 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!--
+      SPA redirect decoder (pairs with 404.html) — https://github.com/rafgraph/spa-github-pages
+      Restores the real path after GitHub Pages' 404.html redirect, so deep links
+      like /portfolio work on direct visit and refresh. Must run before the app.
+    -->
+    <script type="text/javascript">
+      (function (l) {
+        if (l.search[1] === '/') {
+          var decoded = l.search.slice(1).split('&').map(function (s) {
+            return s.replace(/~and~/g, '&');
+          }).join('?');
+          window.history.replaceState(null, null,
+            l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      }(window.location));
+    </script>
     <script defer src="https://analytics.sajiali.com/script.js" data-website-id="afb1751a-e7e1-4178-bf27-17a2c41c2384"></script>
   </head>
   <body>
