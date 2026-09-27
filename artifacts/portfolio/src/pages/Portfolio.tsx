@@ -1,4 +1,5 @@
 import { motion, useScroll, useTransform } from "framer-motion"
+import { Link } from "wouter"
 import { portfolioData } from "@/data/portfolio"
 import { Navigation } from "@/components/Navigation"
 import { PlaceholderImage } from "@/components/PlaceholderImage"
@@ -657,7 +658,16 @@ export default function Portfolio() {
             className="mt-20 pt-10 border-t border-white/[0.06] flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-[0.4em] text-muted-foreground/35 font-sans"
           >
             <span>© {portfolioData.header.year} Saji Ali</span>
-            <span>Sound Architect</span>
+            <span className="flex items-center gap-4">
+              <span>Sound Architect</span>
+              <span className="text-white/15">·</span>
+              <Link
+                href="/privacy"
+                className="hover:text-foreground/70 transition-colors"
+              >
+                Privacy
+              </Link>
+            </span>
           </FadeUp>
         </section>
       </main>

@@ -56,6 +56,9 @@ Thumbs.db
 # Private client documents — never commit quotes, bank details, or deliverables
 deliverables/
 artifacts/portfolio/public/quotes/
+# Quote page source for finished client gig (contains client pricing / bank details)
+artifacts/portfolio/src/data/quote-toaster.ts
+artifacts/portfolio/src/pages/QuoteToaster.tsx
 
 # Claude Code memory
 .claude/

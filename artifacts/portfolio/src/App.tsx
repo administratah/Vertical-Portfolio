@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Portfolio from "@/pages/Portfolio";
 import PortfolioDoc from "@/pages/PortfolioDoc";
+import Privacy from "@/pages/Privacy";
 import AgentChatWidget from "@/components/AgentChatWidget";
 
 const queryClient = new QueryClient();
@@ -14,6 +15,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Portfolio} />
       <Route path="/portfolio" component={PortfolioDoc} />
+      <Route path="/privacy" component={Privacy} />
       <Route component={NotFound} />
     </Switch>
   );
