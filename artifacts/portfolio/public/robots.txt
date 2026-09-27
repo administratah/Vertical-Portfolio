@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Private client documents — keep out of search indexes
+Disallow: /quote/
+Disallow: /quotes/
+
+Sitemap: https://sajiali.com/sitemap.xml
