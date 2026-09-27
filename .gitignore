@@ -49,8 +49,13 @@ Thumbs.db
 .local/
 
 # Environment secrets — never commit API keys
+.env
 .env.local
 .env*.local
+
+# Private client documents — never commit quotes, bank details, or deliverables
+deliverables/
+artifacts/portfolio/public/quotes/
 
 # Claude Code memory
 .claude/
