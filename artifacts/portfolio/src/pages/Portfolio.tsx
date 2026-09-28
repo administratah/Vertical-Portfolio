@@ -128,7 +128,7 @@ function ExperienceScene({ exp, image, objectPos, index, children }: {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 w-full items-center z-10">
         <div className={`flex flex-col ${isEven ? "lg:order-2" : "lg:order-1"}`}>
-          <ChapterLabel num={`0${index + 1}`} title="Chapter" className="mb-10" />
+          <ChapterLabel num={`0${index + 1}`} title={label} className="mb-10" />
           <FadeUp delay={0.06}>
             <h2
               className="font-display font-bold italic normal-case leading-[0.88] mb-8 text-foreground/95"
@@ -259,21 +259,21 @@ export default function Portfolio() {
                 </div>
 
                 <motion.div
-                  className="mt-10 max-w-xs"
+                  className="mt-10 max-w-sm"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.38, duration: 0.4 }}
                 >
-                  <p className="text-sm md:text-base font-sans font-light text-muted-foreground leading-snug tracking-wide">
+                  <p className="text-base md:text-lg font-sans font-normal text-foreground/85 leading-snug tracking-wide">
                     {portfolioData.header.title}
                   </p>
-                  <p className="mt-1.5 text-xs text-muted-foreground/50 font-sans tracking-wider">
+                  <p className="mt-2.5 text-[11px] uppercase tracking-[0.28em] text-muted-foreground/55 font-sans">
                     UAE &nbsp;·&nbsp; 10+ Years
                   </p>
                 </motion.div>
 
                 <motion.p
-                  className="mt-6 text-[10px] uppercase tracking-[0.38em] text-muted-foreground/45 font-sans"
+                  className="mt-7 text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-muted-foreground/65 font-sans"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.45, duration: 0.4 }}
@@ -371,8 +371,8 @@ export default function Portfolio() {
             <div className="lg:col-span-7">
               <FadeUp>
                 <p
-                  className="font-display font-normal italic normal-case text-foreground/88 leading-[1.22]"
-                  style={{ fontSize: "clamp(1.6rem, 3.5vw, 3.8rem)" }}
+                  className="font-display font-normal italic normal-case text-foreground/88 leading-[1.25] max-w-2xl"
+                  style={{ fontSize: "clamp(1.5rem, 3vw, 3rem)" }}
                 >
                   {portfolioData.intro.text}
                 </p>
@@ -380,11 +380,15 @@ export default function Portfolio() {
             </div>
             <div className="lg:col-span-5">
               <FadeUp delay={0.1}>
-                <div className="divide-y divide-white/[0.07]">
+                <span className="block text-[10px] uppercase tracking-[0.5em] text-muted-foreground/60 font-sans mb-6">
+                  Disciplines
+                </span>
+                <div className="divide-y divide-white/[0.07] border-t border-white/[0.07]">
                   {portfolioData.header.tags.map((tag, i) => (
-                    <div key={i} className="flex items-center gap-5 py-5">
+                    <div key={i} className="group flex items-center gap-5 py-5 cursor-default">
                       <span className="text-accent text-xs font-sans tabular-nums shrink-0">0{i + 1}</span>
-                      <span className="text-lg md:text-xl font-display font-bold normal-case tracking-wide text-foreground/78">{tag}</span>
+                      <span className="text-lg md:text-xl font-display font-bold normal-case tracking-wide text-foreground/70 group-hover:text-foreground transition-colors duration-300">{tag}</span>
+                      <span className="ml-auto h-px w-0 bg-accent/40 group-hover:w-10 transition-all duration-300" />
                     </div>
                   ))}
                 </div>
